@@ -6,19 +6,21 @@ import pprint
 #  * ensure exists upon no extra data (currently need to ctrl-c)
 #  * grab extra data (stream URL, etc) 
 
-clientID="1d64d5728db6fd2bf52b77c57a47fc91"
-URL="http://soundcloud.com/user18081971"
-FILE="user18081971.json"
+SC_USERNAME="user18081971"
 LIMIT = 50
 OFFSET = 1
+
+clientID="1d64d5728db6fd2bf52b77c57a47fc91"
+URL="http://soundcloud.com/" + SC_USERNAME
+FILE="../frontend/" + SC_USERNAME + ".json"
 
 alltracks = []
 TRACKCOUNT = 0
 
 client = soundcloud.Client(client_id=clientID)
 
-#user = client.get('/resolve', url='http://soundcloud.com/user18081971')
-userid = 122922135 #user.id
+#user = client.get('/resolve', url=URL)
+userid = 122922135 # or user.id - locking this down as rdj keeps changing username
 
 def AppendTrack(alltracks, track):
     global TRACKCOUNT
@@ -41,15 +43,25 @@ def AppendTrack(alltracks, track):
         favoritingscount = track.favoritings_count
     except:
         favoritingscount = '0'
+    try:
+    	downloadurl = track.download_url
+    except:
+    	downloadurl = None
     
     alltracks.append({
         'id': track.id,
         'created_at': track.created_at,
         'title': track.title,
+        'description': track.description,
+        'tag_list': track.tag_list,
+        'duration': track.duration,
         'comment_count': commentcount,
         'download_count': downloadcount,
         'playback_count': playbackcount,
-        'favoritings_count': favoritingscount
+        'favoritings_count': favoritingscount,
+        'stream_url': track.stream_url,
+		'download_url': downloadurl,
+		'permalink_url': track.permalink_url
     })
 
 tracks = client.get('/users/%d/tracks' %userid, order='created_at', limit=LIMIT)

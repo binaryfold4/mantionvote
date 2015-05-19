@@ -11,7 +11,7 @@ $(document).ready(function() {
             { "data": "id", "visible": false },
             { "data": "title" }
         ]
-    } );  
+    } );   
       
     var tracktable = $('#tracks').dataTable( {
         "aaSorting": [[0,'created_at']],
@@ -27,8 +27,9 @@ $(document).ready(function() {
         },
         "columns": [
             { "data": "id", "visible": false },
-            { "data": "created_at" },  // should be reofrmatted
+            { "data": "created_at", "render": calc_created_at },
             { "data": "title" },
+            { "data": "duration", "render": calc_sc_duration },
             { "data": "comment_count" },
             { "data": "download_count" },
             { "data": "playback_count" },
@@ -36,6 +37,21 @@ $(document).ready(function() {
             { "data": null, "defaultContent": "<a class='btn btn-warning btn-sm'>vote</a>" }         
         ]
     } );
+    
+    function calc_created_at(data) {
+        date = new Date(data);
+        return date.toISOString().substring(0, 10);
+    };
+    
+    function padDigits(number, digits) {
+        return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+    }
+
+    function calc_sc_duration(millis) {
+        var minutes = padDigits(Math.floor(millis / 60000), 2);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
     
     function getTableId(table) {
         var votes = [];
@@ -80,7 +96,7 @@ $(document).ready(function() {
     
     $('#vote').click( function () {
         var votes = getTableId(votetable);
-        console.log(votes);    // send this to server
+        alert(votes);    // send this to server
     } );
         
 } );

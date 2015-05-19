@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -v
 
 pyvenv env
 source env/bin/activate
