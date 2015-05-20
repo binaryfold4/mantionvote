@@ -14,4 +14,5 @@ class VoteSerializer(serializers.ModelSerializer):
     track = TrackVoteSerializer(read_only=True)
     class Meta:
         model = Vote
+        #depth = 2
         fields = [ 'track' ] #, 'title' ]
