@@ -8,8 +8,8 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "columnDefs": [
-            { "targets": 0, "data": "track.sc_id", "visible": false },
-            { "targets": 1, "data": "track.title" }
+            { "targets": 0, "data": "sc_id", "visible": false },
+            { "targets": 1, "data": "title" }
         ]
     } );   
       
@@ -82,8 +82,8 @@ $(document).ready(function() {
                 alert(totalVotes + " votes already reached!");
             } else {
                 $(this).addClass('selected'); 
-                //votetable.fnAddData( { 'track.sc_id': trackId, 'track.title': trackTitle } );
-                votetable.fnAddData( [ trackId, trackTitle ]);
+                votetable.fnAddData( { 'sc_id': trackId, 'title': trackTitle } );
+                //votetable.fnAddData( [ trackId, trackTitle ]);
             };
             
         };
