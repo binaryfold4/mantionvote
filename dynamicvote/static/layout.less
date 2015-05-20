@@ -1,0 +1,169 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Import mixins
+//----------------------------------------------------------------------------------------------------------------------
+
+@import "less/settings";
+@import "less/helpers";
+@import "less/resets";
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// Basics
+//----------------------------------------------------------------------------------------------------------------------
+
+body { background: @color_brand_dark; .defaultFont(); }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6  { .defaultFont(@font-weight: 700; @line-height: 1.1em; @margin: 0 0 1.5em); }
+
+p, li, th, td { .defaultFont(@font-size: 1.125em; @margin: 0 0 1.5em); }
+
+td { color: @color_brand_dark; }
+
+.highlight{ color: @color_brand; }
+
+a
+{   text-decoration: none; color: #fff;
+    &:hover,
+    &:focus     { text-decoration: none; color: @color_brand; }
+    &:active    { text-decoration: none; color: darken(@color_brand,10%); }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Layouts
+//----------------------------------------------------------------------------------------------------------------------
+
+.logo
+{   width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.8; background: transparent url(assets/afx-bg.png) no-repeat center 100px;
+    &.activated { z-index: -1; .transition(z-index 0s ease-out 2s); }
+}
+
+.wrap
+{ .clearfix(); padding: 160px percentage(100/2484);
+    @media (min-width: @small) { padding-top: 120px; }
+}
+
+
+.topbar
+{   width: 100%; height: 140px; position: fixed; left: 0; top: 0; z-index: 1; background-color: @color_brand_dark; padding: 5px 0 0;
+    @media (min-width: @small)  { height: 100px; }
+    @media (min-width: @medium) { padding-top: 35px; }
+
+
+    .sitename
+    {   float: left; line-height: 1.1em; margin: 0 percentage(100/2484);
+        @media (min-width: @medium) { width: percentage(326/2484); float: left; }
+
+        a
+        {   color: @color_brand;
+            &:hover, &:focus { text-decoration: none; }
+
+            span { display: block; color: #fff; padding-left: 20px; }
+        }
+    }
+
+    .topbarmain
+    {   width: 100%; max-width: 1440px; overflow: hidden; margin: 0;
+        @media (min-width: @medium) { width: percentage(1876/2484); float: left; }
+        @media (min-width: @max) { width: percentage(1440/2484); }
+    }
+
+    .user
+    {   width: auto; position: absolute; top: 5px; right: percentage(100/2484); line-height: 1.1em; text-align: right; color: @color_brand; margin: 0;
+        @media (min-width: @medium) { color: #fff; }
+        @media (min-width: @large)  { position: static; float: right; margin-top: 20px; }
+
+        a
+        {   display: block; padding-right: 20px; margin-left: 0;
+            @media (min-width: @medium)   { display: inline; padding-right: 0; margin-left: 40px; }
+        }
+
+        .loggedInAs
+        {   display: none;
+            @media (min-width: @medium) { display: inline; }
+        }
+
+    }
+
+    .navlinks
+    {   .clearfix(); padding: 0; margin: 30px 0 0 percentage(100/2484);
+        @media (min-width: @small)  { margin-top: 20px; }
+        @media (min-width: @medium) { margin-top: 16px; }
+        @media (min-width: @large)  { margin-left: 0; margin-right: 0; }
+        @media (min-width: @max) { margin: 0; }
+
+        li
+        {   float: left; list-style-type: none; padding: 0; margin: 0 15px 0 0;
+            @media (min-width: @small)  { margin-right: 35px; }
+            @media (min-width: @max) { margin-right: 70px; }
+
+            &.first
+            {   display: none;
+                @media (min-width: @medium) { display: block; }
+                @media (min-width: @max)  { margin-right: 140px; }
+            }
+
+            a { border-bottom: 1px solid transparent; }
+            &.currentpage a
+            {   border-color: #fff;
+                &:hover, &:focus { border-color: @color_brand; }
+                &:active { border-color: darken(@color_brand, 10%); }
+            }
+        }
+    }
+}
+
+
+
+.sidebar
+{   width: 100%; overflow: hidden; margin: 0;
+    @media (min-width: @large)  { width: percentage(600/2484); float: left; margin-top: 130px; margin-right: percentage(100/2484); }
+    @media (min-width: @max) { width: 13%; max-width: 325px; }
+}
+
+.main
+{   width: 100%; max-width: 1440px; overflow: hidden; margin: 0;
+    @media (min-width: @large)  { width: percentage(1780/2484); float: left; }
+    @media (min-width: @max)    { width: 65%; }
+}
+
+
+/* Sidebar navigation */
+//.nav-sidebar {
+//  margin-right: -11px; /* 20px padding + 1px border */
+//  margin-bottom: 10px;
+//  margin-left: -10px;
+//}
+//.nav-sidebar > li > a {
+//  padding-right: 10px;
+//  padding-left: 10px;
+//}
+//.nav-sidebar > .active > a,
+//.nav-sidebar > .active > a:hover,
+//.nav-sidebar > .active > a:focus {
+//  color: #fff;
+//  background-color: #428bca;
+//}
+
+
+
+
+
+table.dataTable { width: 100% !important; margin: 20px 0 !important; } /* !importants to overwrite inline styles and bootstrap */
+
+
+.table>thead>tr>th
+{   border: 0;  }
+
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td
+{   background-color: #fff; padding: 20px 20px 15px; border: 0; border-bottom: 1px solid @color_brand_dark; }
+
+
+.table>tbody>tr.selected td,
+.table>tbody>tr:hover td { background-color: @color_brand !important; color: #fff; }
+
+
+
+
+
