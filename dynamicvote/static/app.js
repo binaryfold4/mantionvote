@@ -4,12 +4,12 @@ $(document).ready(function() {
         "bPaginate": false,
         "bFilter": false, 
         "ajax": {
-            "url": "vote.json",
-            "dataSrc": "vote"
+            "url": "", //rest/votes/?format=json",
+            "dataSrc": ""
         },
-        "columns": [
-            { "data": "id", "visible": false },
-            { "data": "title" }
+        "columnDefs": [
+            { "targets": 0, "data": "sc_id", "visible": false },
+            { "targets": 1, "data": "title" }
         ]
     } );   
       
@@ -18,23 +18,22 @@ $(document).ready(function() {
         "iDisplayLength": -1,
         "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
         "ajax": {
-            "url": "user18081971.json",
-            "dataSrc": "tracks"
+            "url": "/rest/tracks/?format=json",
+            "dataSrc": ""
         },
         "fnDrawCallback": function() {
            var votes = getTableId(votetable);
            markSelected(tracktable,votes);    // send this to server
         },
-        "columns": [
-            { "data": "id", "visible": false },
-            { "data": "created_at", "render": calc_created_at },
-            { "data": "title" },
-            { "data": "duration", "render": calc_sc_duration },
-            { "data": "comment_count" },
-            { "data": "download_count" },
-            { "data": "playback_count" },
-            { "data": "favoritings_count" },
-            { "data": null, "defaultContent": "<a class='btn btn-warning btn-sm'>vote</a>" }         
+        "columnDefs": [
+            { "targets": 0, "data": "sc_id", "visible": false },
+            { "targets": 1, "data": "created_at", "render": calc_created_at },
+            { "targets": 2, "data": "title" },
+            { "targets": 3, "data": "duration", "render": calc_sc_duration },
+            { "targets": 4, "data": "comment_count" },
+            { "targets": 5, "data": "download_count" },
+            { "targets": 6, "data": "playback_count" },
+            { "targets": 7, "data": "favoritings_count" }
         ]
     } );
     
@@ -72,8 +71,8 @@ $(document).ready(function() {
     $('#tracks tbody').on( 'click', 'tr', function () {
        
         var trackTitle = tracktable.fnGetData(this).title;
-        var trackId = tracktable.fnGetData(this).id;
-        
+        var trackId = tracktable.fnGetData(this).sc_id;
+
         var totalVotes = 20
         
         if ( !$(this).hasClass('selected') ) {
@@ -83,7 +82,7 @@ $(document).ready(function() {
                 alert(totalVotes + " votes already reached!");
             } else {
                 $(this).addClass('selected'); 
-                votetable.fnAddData( { 'id': trackId, 'title': trackTitle } );   
+                votetable.fnAddData( { 'sc_id': trackId, 'title': trackTitle } );
             };
             
         };
@@ -92,6 +91,7 @@ $(document).ready(function() {
     
     $('#votetracks tbody').on( 'click', 'tr', function () {  
           votetable.fnDeleteRow(this);
+          // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
     
     $('#vote').click( function () {

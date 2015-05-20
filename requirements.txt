@@ -1,0 +1,10 @@
+soundcloud
+django
+python-social-auth
+#django-import-export
+djangorestframework
+markdown
+django-filter
+django-extensions
+
+
