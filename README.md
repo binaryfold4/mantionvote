@@ -1,13 +1,28 @@
-#AFX soundcloud data scraping + voting tool
-###Very much a WIP; thar be dragons
+#django soundcloud voting tool (API scraper, voting backend)
+####Very much a WIP; thar be dragons
+####Ryan Verner, 2014 <ryan.verner@gmail.com>
 
----
+###Requires:
 
-Frontend json feeding expects to run from a webserver; easy way to do this in dev:
+  * Python 3.3+
 
+###Installation:
+
+```bash
+pyvenv env
+source env/bin/activate
+pip install -r requirements.txt
 ```
-cd frontend
-python -m SimpleHTTPServer 8001
+
+###Using:
+
+(If running in production, configure a real DB first in settings.py)
+
+```bash
+source env/bin/activate
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py scrape
+python manage.py runserver
 ```
-go to http://127.0.0.1:8001
 

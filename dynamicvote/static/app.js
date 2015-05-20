@@ -8,7 +8,7 @@ $(document).ready(function() {
             "dataSrc": "vote"
         },
         "columns": [
-            { "data": "id", "visible": false },
+            { "data": "sc_id", "visible": false },
             { "data": "title" }
         ]
     } );   
@@ -18,15 +18,15 @@ $(document).ready(function() {
         "iDisplayLength": -1,
         "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
         "ajax": {
-            "url": "user18081971.json",
-            "dataSrc": "tracks"
+            "url": "/tracks/?format=json",
+            "dataSrc": ""
         },
         "fnDrawCallback": function() {
            var votes = getTableId(votetable);
            markSelected(tracktable,votes);    // send this to server
         },
         "columns": [
-            { "data": "id", "visible": false },
+            { "data": "sc_id", "visible": false },
             { "data": "created_at", "render": calc_created_at },
             { "data": "title" },
             { "data": "duration", "render": calc_sc_duration },
@@ -72,7 +72,7 @@ $(document).ready(function() {
     $('#tracks tbody').on( 'click', 'tr', function () {
        
         var trackTitle = tracktable.fnGetData(this).title;
-        var trackId = tracktable.fnGetData(this).id;
+        var trackId = tracktable.fnGetData(this).sc_id;
         
         var totalVotes = 20
         
@@ -83,7 +83,7 @@ $(document).ready(function() {
                 alert(totalVotes + " votes already reached!");
             } else {
                 $(this).addClass('selected'); 
-                votetable.fnAddData( { 'id': trackId, 'title': trackTitle } );   
+                votetable.fnAddData( { 'sc_id': trackId, 'title': trackTitle } );
             };
             
         };
