@@ -5,7 +5,7 @@ Ryan Verner, 2014 <ryan.verner@gmail.com>
 
 ####Requires:
 
-  * Python 3.3+
+  * Python 3.4+ (probably will run on Python 2.7 with some changes)
 
 ####Installation:
 

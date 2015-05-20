@@ -29,7 +29,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dynamicvote',
-    'rest_framework'
+    'rest_framework',
+    'django_extensions'
 #   'import_export'
 )
 
