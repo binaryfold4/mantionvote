@@ -4,7 +4,7 @@ $(document).ready(function() {
         "bPaginate": false,
         "bFilter": false, 
         "ajax": {
-            "url": "", //rest/votes/?format=json",
+            "url": "", ///rest/votes/?format=json"
             "dataSrc": ""
         },
         "columnDefs": [
@@ -83,6 +83,7 @@ $(document).ready(function() {
             } else {
                 $(this).addClass('selected'); 
                 votetable.fnAddData( { 'sc_id': trackId, 'title': trackTitle } );
+                //votetable.fnAddData( [ trackId, trackTitle ]);
             };
             
         };
