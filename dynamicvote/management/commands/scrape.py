@@ -4,13 +4,14 @@ import soundcloud
 
 # TODO:
 #  * ensure exists upon no extra data (currently need to ctrl-c)
-#  * grab extra data (stream URL, etc) 
+#  * extra logic to ensure not overwiting good data with bad SC data
+#  * call from django-cron
 
 TRACKCOUNT = 0
 
 class Command(BaseCommand):
     args = ''
-    help = 'Grabs latest data from SoundCloud'
+    help = 'Scrapes latest data from SoundCloud'
 
     def handle(self, *args, **options):
 
@@ -56,7 +57,7 @@ class Command(BaseCommand):
                 downloadurl = None
 
             t, created = Track.objects.get_or_create(sc_id = track.id)
-            print("%s: (NEW: %s) %s %s" % (TRACKCOUNT, created, track.id, track.title))
+            print("%s: (NEW: %s) %s %s" % (TRACKCOUNT, created, track.id, track.title.encode()))
 
             t.sc_id = track.id
             t.uploaded_at = track.created_at
