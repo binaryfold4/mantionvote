@@ -24,6 +24,23 @@ $(document).ready(function() {
         "fnDrawCallback": function() {
            var votes = getTableId(votetable);
            markSelected(tracktable,votes);    // send this to server
+
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+
+            api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
+                if ( last !== sc_id ) {
+                    $(rows).eq( i ).after(
+                        '<tr class="trackWidgetRow">'
+                        +'<td class="trackArt"></td>'
+                        +'<td class="waveformContainer" colspan="6"></td>'
+                        +'</tr>'
+                    );
+
+                    last = sc_id;
+                }
+            } );
         },
         "columnDefs": [
             { "targets": 0, "data": "sc_id", "visible": false },
@@ -75,6 +92,12 @@ $(document).ready(function() {
        
         var trackTitle = tracktable.fnGetData(this).title;
         var trackId = tracktable.fnGetData(this).sc_id;
+        var duration = tracktable.fnGetData(this).duration;
+
+        var waveFormRow = $(this).next('tr');
+
+        $('.trackWidgetRow').not(this).removeClass('playing');
+        $(waveFormRow).addClass('playing');
 
         var totalVotes = 20
         
@@ -99,20 +122,37 @@ $(document).ready(function() {
                     currentStream.pause();
             }
             else{
-                SC.stream("/tracks/" + trackId, {
-                    ontimedcomments :function(comments){
-                        console.log(comments[0].body);
-                  }},
 
-                function(sound){
+                SC.get('/tracks/' + trackId, function(track){
 
-                    if(currentStream){
-                        currentStream.destruct();
-                    }
-                    sound.play();
-                    currentStream = sound;
-                    currentTrack = trackId;
+                    console.log(track);
+
+                    var waveform = new Waveform({
+                        container: $(waveFormRow).find('td.waveformContainer')[0],
+                        innerColor: "#aaa",
+                    });
+
+                    waveform.dataFromSoundCloudTrack(track);
+                    var streamOptions = waveform.optionsForSyncedStream();
+                    streamOptions.loadedColor = '#000';
+                    streamOptions.playedColor = '#a00';
+                    streamOptions.ontimedcomments = function(comments){
+//                            console.log(comments);
+                    };
+
+                    console.log(streamOptions);
+
+                    SC.stream(track.uri, streamOptions, function(stream){
+                        if(currentStream){
+                            currentStream.destruct();
+                        }
+                        stream.play();
+                        currentStream = stream;
+                        currentTrack = trackId;
+                    });
+
                 });
+
             }
         }
     
