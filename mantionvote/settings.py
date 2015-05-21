@@ -11,10 +11,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f5g)1=vd2ngbq^v9r=$)qe^ji9q*vl$&x)1msr687(+e8t@pqx'
-
+# SECURITY WARNING: keep the secret key used in production secret
 # SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = 'f5g)1=vd2ngbq^v9r=$)qe^ji9q*vl$&x)1msr687(+e8t@pqx'
+SOCIAL_AUTH_SOUNDCLOUD_KEY = ''
+SOCIAL_AUTH_SOUNDCLOUD_SECRET = ''
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -30,7 +31,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dynamicvote',
     'rest_framework',
-    'django_extensions'
+    'django_extensions',
+    'social.apps.django_app.default'
 #   'import_export'
 )
 
@@ -58,10 +60,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect'
             ],
         },
     },
 ]
+
+LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social.backends.soundcloud.SoundcloudOAuth2'
+]
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 WSGI_APPLICATION = 'mantionvote.wsgi.application'
 
@@ -99,3 +112,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from settings_local import *
+

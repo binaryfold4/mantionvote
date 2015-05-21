@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>user18081971 - soundcloud dynamic poll</title>
+    <title>user18081971 - soundcloud dynamic poll - {% block title %}Your Vote{% endblock %}</title>
 
     <!-- Web Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
@@ -47,29 +47,40 @@
 
     <nav class="topbar" role="navigation">
 
-        <p class="sitename"><a href="/">AFX <span>User18081971 <!--(UNFINISHED DO NOT USE)--></span></a></p>
+        <p class="sitename"><a href="/">AFX <span>User18081971</span></a></p>
 
         <div class="topbarmain">
 
-            <p class="user"><span class="loggedInAs">Logged In as</span> xfxf <a href="#">Sign Out</a></p>
+            <p class="user"}
+      {% if user.is_anonymous %}
+          <span class="loggedInAs">Not Logged In</span>
+          <a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}">Login with SoundCloud</a>
+      {% else %}
+          <span class="loggedInAs">Logged In as</span> {{ user }}
+          <a href="{% url 'django.contrib.auth.views.logout' %}">Sign Out</a>
+      {% endif %}
+            </p>
 
             <ul class="navlinks">
 
                 <li class="first">(*_*)</li>
                 <li><a href="#">About</a></li>
-                <li><a href="#">Your Vote</a></li>
-                <li class="currentpage"><a href="#">Show Total Votes</a></li>
+            {% if not user.is_anonymous %}
+                <li><a href="#" class="currentpage">Your Vote</a></li>
+            {% endif %}
+                <li ><a href="#">Show Total Votes</a></li>
             </ul>
 
         </div>
-
+    
     </nav>
 
     <div class="wrap">
 
         <div class="sidebar">
+{% block sidebar %}
+    <button id="vote" class="btn btn-warning">save this vote</button>
 
-            <button id="vote" class="btn btn-warning">save</button>&nbsp; 20-MAY-2015
             <table id="votetracks" class="table table-striped">
                 <thead>
                     <tr>
@@ -78,13 +89,13 @@
                     </tr>
                 </thead>
             </table>
-
+{% endblock %}
         </div>
 
 
         <div class="main">
-
-            <div class="table-responsive">
+{% block main %}
+           <div class="table-responsive">
                 <p>all 227 tracks - user18081971</p>
                 <p>(click to select top 20 tracks - voting can be changed after you save by visiting this page again)</p>
 
@@ -103,7 +114,7 @@
                     </thead>
                 </table>
             </div>
-
+{% endblock %}
         </div>
     </div>
 

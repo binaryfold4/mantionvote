@@ -19,5 +19,6 @@ class VoteView(generics.ListAPIView):
         return Vote.objects.filter(voteset_current=1).filter(user=user)
 
 def index(request):
-    return render(request, 'dynamicvote/index.html')
+    return render(request, 'index.html')
+
 

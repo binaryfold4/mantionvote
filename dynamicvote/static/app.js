@@ -112,7 +112,7 @@ $(document).ready(function() {
         } else {
             var votes = getTableId(votetable);
             console.log(votes);
-            // TODO: this should be REST'ful - FIX
+            // TODO: this should be REST'ful - FIX backend
             var url = "/vote/?" + jQuery.param(votes);
             location.href = url;
         };
