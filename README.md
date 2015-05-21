@@ -6,11 +6,12 @@ Ryan Verner, 2014 <ryan.verner@gmail.com>
 ####Requires:
 
   * Python 3.4+ (probably will run on Python 2.7 with some changes)
+  * python3.4-venv
 
 ####Installation:
 
 ```bash
-pyvenv env
+pyvenv-3.4 env
 source env/bin/activate
 pip install -r requirements.txt
 ```
