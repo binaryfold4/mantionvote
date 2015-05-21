@@ -66,7 +66,10 @@ $(document).ready(function() {
         };   
         //console.log(table);
         //console.log(votes);
-    };  
+    };
+
+    var currentStream;
+    var currentTrack;
         
     $('#tracks tbody').on( 'click', 'tr', function () {
        
@@ -87,6 +90,31 @@ $(document).ready(function() {
             };
             
         };
+
+        if(trackId){
+            if(currentTrack == trackId){
+                if(currentStream.paused)
+                    currentStream.resume();
+                else
+                    currentStream.pause();
+            }
+            else{
+                SC.stream("/tracks/" + trackId, {
+                    ontimedcomments :function(comments){
+                        console.log(comments[0].body);
+                  }},
+
+                function(sound){
+
+                    if(currentStream){
+                        currentStream.destruct();
+                    }
+                    sound.play();
+                    currentStream = sound;
+                    currentTrack = trackId;
+                });
+            }
+        }
     
     } );
     
