@@ -22,7 +22,7 @@ class Track(models.Model):
         return self.title
 
 class Vote(models.Model):
-    track = models.ForeignKey(Track, related_name='track', null=False)
+    track = models.ForeignKey(Track, unique=False, related_name='track', null=False)
     user = models.ForeignKey(User, null=False)
     voteset_current = models.BooleanField(default=1)
     created_at = CreationDateTimeField()
@@ -30,10 +30,6 @@ class Vote(models.Model):
     def __str__(self):
         return self.track.title
 
-#currvote
-#- track_id
-#- total_vote
-#- last_updated
 
 
 
