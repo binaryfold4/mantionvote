@@ -14,6 +14,23 @@ $(document).ready(function() {
             search: "_INPUT_",
             searchPlaceholder: "Type here to search tracks"
         },
+        "infoCallback": function( settings, start, end, max, total, pre ) {
+            if(max)
+                $('p.numTracks').html(max + ' tracks');
+
+            var length = 0;
+            this.api().column(2).data().each( function(duration, i){
+                length += duration;
+            });
+
+            var seconds = ((length / 1000) % 60).toFixed();
+            var minutes = ((length / (1000 * 60)) % 60).toFixed();
+            var hours = ((length / (1000 * 60 * 60)) % 24).toFixed();
+
+            var durationString = hours + ':' + minutes + ':' + seconds;
+
+            $('p.totalTime').html(durationString);
+        },
         "fnDrawCallback": function() {
 
 //           var votes = getTableId(votetable);
