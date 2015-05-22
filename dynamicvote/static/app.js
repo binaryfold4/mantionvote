@@ -29,16 +29,31 @@ $(document).ready(function() {
         "fnDrawCallback": function() {
            var votes = getTableId(votetable);
            markSelected(tracktable,votes);    // send this to server
+
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+
+            api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
+                $(rows).eq( i ).after(
+                    '<tr class="trackWidgetRow">'
+                    +'<td colspan="6">'
+                    +'<div class="waveformContainer"></div>'
+                    +'<div class="trackArt"></div>'
+                    +'</td>'
+                    +'</tr>'
+                );
+            });
         },
         "columnDefs": [
             { "targets": 0, "data": "sc_id", "visible": false },
-            { "targets": 1, "data": "title" },
+            { "targets": 1, "className": "title", "data": "title" },
             { "targets": 2, "data": "duration", "render": calc_sc_duration },
             { "targets": 3, "data": "created_at", "render": calc_created_at },
-            { "targets": 4, "data": "comment_count", "render": nullify },
-            { "targets": 5, "data": "download_count", "render": nullify },
-            { "targets": 6, "data": "playback_count", "render": nullify },
-            { "targets": 7, "data": "favoritings_count", "render": nullify }
+            { "targets": 4, "data": "playback_count", "render": nullify },
+            { "targets": 5, "data": "comment_count", "render": nullify },
+            { "targets": 6, "data": "favoritings_count", "render": nullify },
+            { "targets": 7, "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
     
@@ -84,10 +99,19 @@ $(document).ready(function() {
         //console.log(votes);
     };
 
+    var currentStream;
+    var currentTrack;
+
     $('#tracks tbody').on( 'click', 'tr', function () {
        
         var trackTitle = tracktable.fnGetData(this).title;
         var trackId = tracktable.fnGetData(this).sc_id;
+        var trackWaveform = tracktable.fnGetData(this).waveform_url;
+
+        var waveFormRow = $(this).next('tr');
+
+        $('.trackWidgetRow').not(this).removeClass('playing');
+        $(waveFormRow).addClass('playing');
 
         var totalVotes = 20
         
@@ -103,6 +127,48 @@ $(document).ready(function() {
             };
             
         };
+
+        if(trackId){
+            if(currentTrack == trackId){
+                if(currentStream.paused)
+                    currentStream.resume();
+                else
+                    currentStream.pause();
+            }
+            else{
+                var track = {
+                    waveform_url: trackWaveform,
+                    uri : '/tracks/'+trackId
+                };
+
+                var waveform = new Waveform({
+                    container: $(waveFormRow).find('div.waveformContainer')[0],
+                    innerColor: '#fff',
+                    outerColor: '#310520',
+                    playedColor: '#f50'
+                });
+
+                waveform.dataFromSoundCloudTrack(track);
+                var streamOptions = waveform.optionsForSyncedStream({
+                    loadedColor: '#fff',
+                    playedColor: '#f50'
+                });
+
+//                    streamOptions.ontimedcomments = function(comments){
+////                            console.log(comments);
+//                    };
+
+                SC.stream(track.uri, streamOptions, function(stream){
+                    if(currentStream){
+                        currentStream.destruct();
+                    }
+                    stream.play();
+                    currentStream = stream;
+                    currentTrack = trackId;
+                });
+
+            }
+        }
     
     } );
     
