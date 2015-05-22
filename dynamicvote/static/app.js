@@ -55,7 +55,7 @@ $(document).ready(function() {
             { "targets": 0, "data": "sc_id", "visible": false },
             { "targets": 1, "className": "title", "data": "title" },
             { "targets": 2, "data": "duration", "render": calc_sc_duration },
-            { "targets": 3, "data": "uploaded_at", "render": calc_created_at },
+            { "targets": 3, "data": "uploaded_at", "render": { "display": calc_created_at } },
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
             { "targets": 6, "data": "favoritings_count", "render": nullify },
@@ -71,12 +71,19 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-          console.log(aData);
+//          console.log(aData);
         },
         "oLanguage": {
             "sEmptyTable":     "No tracks selected"
         },
-        "infoCallback": function(){},
+        "infoCallback": function( settings, start, end, max, total, pre ) {
+            if(max)
+                $('p.numTracks').html(max + ' tracks');
+
+            $('.slekshun .selected').html(max + ' selected');
+
+            console.log(total);
+        },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
             { "targets": 1, "data": "track.title", "orderable": false }
@@ -85,7 +92,7 @@ $(document).ready(function() {
 
     function calc_created_at(data) {
         date = new Date(data);
-        return date.toISOString().substring(0, 10);
+        return moment(date).fromNow(); // 4 years ago; //date.toISOString().substring(0, 10);
     };
     
     function padDigits(number, digits) {
