@@ -59,6 +59,7 @@ $(document).ready(function() {
         "oLanguage": {
             "sEmptyTable":     "No tracks selected"
         },
+        "infoCallback": function(){},
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
             { "targets": 1, "data": "track.title", "orderable": false }
@@ -137,6 +138,10 @@ $(document).ready(function() {
                 }
             }
             else{
+
+                var waveformContainer = $(waveFormRow).find('div.waveformContainer')[0];
+                $(waveformContainer).empty();
+
                 var track = {
                     waveform_url: trackWaveform,
                     uri : '/tracks/'+trackId
@@ -146,15 +151,18 @@ $(document).ready(function() {
 
                 var waveform = new Waveform({
                     container: $(waveFormRow).find('div.waveformContainer')[0],
-                    innerColor: '#fff',
+                    innerColor: 'transparent',
                     outerColor: '#310520',
-                    playedColor: '#f50'
+                    playedColor: '#f50',
+                    defaultColor: 'transparent'
                 });
 
                 waveform.dataFromSoundCloudTrack(track);
                 var streamOptions = waveform.optionsForSyncedStream({
                     loadedColor: '#fff',
-                    playedColor: '#f50'
+                    playedColor: '#f50',
+                    innerColor: 'transparent',
+                    defaultColor: 'transparent'
                 });
 
 //                    streamOptions.ontimedcomments = function(comments){
