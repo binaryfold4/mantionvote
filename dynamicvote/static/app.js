@@ -22,7 +22,7 @@ $(document).ready(function() {
             api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
                 $(rows).eq( i ).after(
                     '<tr class="trackWidgetRow">'
-                    +'<td colspan="6">'
+                    +'<td colspan="7">'
                     +'<div class="waveformContainer"></div>'
                     +'<div class="trackArt"></div>'
                     +'</td>'
@@ -124,12 +124,12 @@ $(document).ready(function() {
         if(trackId){
             if(currentTrack == trackId){
                 if(currentStream.paused){
-                    $(trackRow).removeClass('playing');
                     currentStream.resume();
+                    $(trackRow).addClass('playing');
                 }
                 else{
-                    $(trackRow).addClass('playing');
                     currentStream.pause();
+                    $(trackRow).removeClass('playing');
                 }
             }
             else{
