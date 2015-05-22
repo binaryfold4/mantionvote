@@ -81,8 +81,7 @@ $(document).ready(function() {
                 $('p.numTracks').html(max + ' tracks');
 
             $('.slekshun .selected').html(max + ' selected');
-
-            console.log(total);
+            $('.slekshun .remaining').html((20-max) + ' remaining');
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
