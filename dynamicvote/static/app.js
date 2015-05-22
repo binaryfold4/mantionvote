@@ -193,44 +193,60 @@ $(document).ready(function() {
           votetable.fnDeleteRow(this);
           // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
-    
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
     $('#vote').click( function () {
 
         var minVotes = 5;
+
         totalvote = votetable.fnSettings().fnRecordsTotal();
         if (totalvote < minVotes) {
-            alert("At least 5 votes are required");
+            alert("At least " + minVotes + " votes are required");
         } else {
             var votes = getTableId(votetable);
             console.log(votes);
-            // TODO: this should be REST'ful - FIX backend
-            //var url = "/vote/?" + jQuery.param(votes);
-            //location.href = url;
 
             function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
                 return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
             }
 
-            $.ajaxSetup({
+            $.ajax({
+
                 beforeSend: function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
-                }
-            });
+                },
 
-            $.ajax({
-                url : "/vote/",
+                url : "/myvote/",
                 type: "POST",
-                data: { vote: votes },
+                data: votes,
 
                 success: function(json) {
-                    console.log(json);
                     console.log("success");
+                    $("#status").text(json);
                 },
 
                 error: function(xhr,errmsg,err) {
+                    console.log("failure");
                     console.log(xhr.status + ": " + xhr.responseText);
+                    $("#status").text(err);
                 }
             })
 
