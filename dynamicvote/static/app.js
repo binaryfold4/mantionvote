@@ -178,23 +178,18 @@ $(document).ready(function() {
 
         var trackRow = $(this).closest('tr');
         var trackData = tracktable.fnGetData(trackRow);
-        var trackTitle = trackData.title;
         var trackId = trackData.sc_id;
-        var trackWaveform = trackData.waveform_url;
-
-        var waveFormRow = $(this).next('tr');
 
         var totalVotes = 20
 
-        if ( !$(this).hasClass('selected') ) {
+        if ( !$(trackRow).hasClass('voted') ) {
             totalvote = votetable.fnSettings().fnRecordsTotal();
 
             if (totalvote > totalVotes-1) {
                 alert(totalVotes + " votes already reached!");
             } else {
-                $(this).addClass('selected');
+                $(trackRow).addClass('voted');
                 votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
-                //votetable.fnAddData( [ trackId, trackTitle ]);
             };
         }
 
