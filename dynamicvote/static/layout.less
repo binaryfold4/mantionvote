@@ -26,6 +26,11 @@ a
     &:active    { text-decoration: none; color: darken(@color_brand,10%); }
 }
 
+::-webkit-input-placeholder { color: #fff; }
+:-moz-placeholder           { color: #fff; }
+::-moz-placeholder          { color: #fff; }
+:-ms-input-placeholder      { color: #fff; }
+
 
 .logo
 {   width: 206px; height: 206px; position: fixed; top: 54px; left: 290px; z-index: -1; background: transparent url(assets/aphex-twin-logo.png) no-repeat center center;
@@ -46,8 +51,7 @@ a
 {   width: 100%; height: 54px; position: fixed; left: 0; top: 0; z-index: 1; background-color: @color_brand_dark; padding: 20px 60px 0;
 
     .sitename
-    {   float: left; line-height: 1.1em; margin: 0 60px;
-        @media (min-width: @xlarge) { width: 300px; position: fixed; top: 20px; left: 60px; margin: 0; }
+    {   width: 300px; position: fixed; top: 20px; left: 60px; line-height: 1.1em; margin: 0;
         @media (min-width: @max)    { width: 360px; }
 
         a
@@ -60,7 +64,7 @@ a
 
     .topbarmain
     {   width: 100%; overflow: hidden; margin: 0;
-        @media (min-width: @medium) { float: left; padding-left: 360px; }
+        @media (min-width: @medium) { float: left; padding-left: 320px; }
         @media (min-width: @max)    { padding-left: 420px; }
     }
 
@@ -86,10 +90,12 @@ a
 
 
         li
-        {   float: left; list-style-type: none; padding: 0; margin: 0 100px 0 0; white-space: nowrap;
+        {   float: left; list-style-type: none; padding: 0; margin: 0 40px 0 0; white-space: nowrap;
+            @media (min-width: @xlarge) { margin-right: 100px; }
 
             &.first
-            {   margin-right: 70px;
+            {
+                @media (min-width: @xlarge) { margin-right: 70px; }
             }
 
             &.info
@@ -116,7 +122,7 @@ a
 
 
 .infoText
-{   max-width: 750px; display: none; position: absolute; top: 125px; left: 590px; background-color: @color_brand_dark;
+{   max-width: 750px; display: none; position: absolute; top: 125px; left: 590px; background-color: @color_brand_dark; margin-right: 60px;
     &.open { display: block; }
 }
 
@@ -166,21 +172,22 @@ a
 
 h1 { font-weight: 100; .font-size(40); margin: 0 0 90px; }
 
-.numTracks { color: @color_brand_alt; margin-left: 108px; }
+.numTracks,
+.totalTime { color: @color_brand_alt; margin-left: 108px; margin-bottom: 0; }
 
 .dataTables_length { display: none;  }
 
 div.dataTables_filter
-{   width: 50%; float: right; background: transparent url(assets/dots.png) repeat-x left bottom; text-align: left; padding-bottom: 10px; margin: -60px 0 150px;
+{   width: 50%; float: right; background: transparent url(assets/dots.png) repeat-x left bottom; text-align: left; padding-bottom: 10px; margin: -40px 0 150px;
     label { width: 100%; .defaultFont(@font-size: 1.125em;); }
     input
-    {   width: 100%; background: transparent; .defaultFont(); padding-left: 20px; border: 0;
+    {   width: 100%; background: transparent; .defaultFont(); border: 0;
         &:focus { outline: none; }
     }
 }
 
 
-
+.table-responsive { border: 0; }
 
 table.dataTable { width: 100% !important; clear: both; margin: 0!important; } /* !importants to overwrite inline styles and bootstrap */
 
@@ -191,12 +198,17 @@ table.dataTable { width: 100% !important; clear: both; margin: 0!important; } /*
     &.obscured { background-image: none; }
 }
 
-.table thead tr th  { padding: 20px 30px 18px 0; border: 0;  }
+table.dataTable thead > tr > th
+{   padding: 20px 10px 18px 0; border: 0; white-space: nowrap;
+    &:focus { outline: none; }
+}
 
-table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:after        { opacity: 0; }
+
 table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_desc:after { top: 20px; }
-table.dataTable thead .sorting:after      { opacity: 0; }
+table.dataTable thead .sorting_desc:after   { content: ""; width: 18px; height: 12px; display: inline-block; position: static; opacity: 0.8; background: transparent none no-repeat center center; margin-left: 10px; }
+table.dataTable thead .sorting_asc:after    { background-image: url(assets/lowest-first.png); }
+table.dataTable thead .sorting_desc:after   { background-image: url(assets/highest-first.png); }
 
 .table tbody tr td  { padding: 20px 20px 18px 0; border: 0; }
 
@@ -209,6 +221,13 @@ table.dataTable thead .sorting:after      { opacity: 0; }
 
 .table tbody tr td.title            { background: transparent url(assets/play.png) no-repeat 24px 20px; padding-left: 70px; }
 .table tbody tr.playing td.title    { background-image: url(assets/pause.png); }
+
+.table thead tr th.title            { width: auto; }
+.table thead tr th.duration         { width: 65px; }
+.table thead tr th.date             { width: 90px; }
+.table thead tr th.plays            { width: 75px; }
+.table thead tr th.comments         { width: 100px; }
+.table thead tr th.likes            { width: 75px; }
 
 .table thead tr th.vote,
 .table tbody tr td.vote         { width: 75px; text-align: center; padding-right: 0; }

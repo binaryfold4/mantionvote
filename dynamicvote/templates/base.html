@@ -62,7 +62,7 @@
                 <!--<li><a href="{% url 'about' %}">About</a></li>-->
                 <li class="info open">Info <span class="hideText">-</span><span class="showText">+</span></li>
 
-                <li><a href="/">All Tracks</a></li>
+                <li class="currentpage"><a href="/">All Tracks</a></li>
 
                 <!--<li><a href="/">Playlists</a></li>-->
 
@@ -114,6 +114,7 @@
             <h1>All Tracks</h1>
 
             <p class="numTracks">227 tracks</p>
+            <p class="totalTime">21:34:27</p>
 
             <div class="table-responsive">
                 <table class="table" id="tracks">
@@ -121,8 +122,8 @@
                         <tr>
                             <th class="id">sc_id</th>
                             <th class="title">Title</th>
-                            <th class="duration">Duration</th>
-                            <th class="date">Date</th>
+                            <th class="duration">Time</th>
+                            <th class="date">Uploaded</th>
                             <th class="plays">Plays</th>
                             <th class="comments">Comments</th>
                             <th class="likes">Likes</th>
