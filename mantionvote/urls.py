@@ -10,8 +10,6 @@ urlpatterns = [
     url(r'^showvotes/all', views.showvotes, name='showvotes'),
     url(r'^profile/', views.updateprofile, name='profile'),
 
-    url(r'^vote/', views.dovote),
-
     url(r'^api/vote/', views.VoteView.as_view()),
     url(r'^api/tracks/', views.TrackView.as_view()),
     url(r'^admin/', include(admin.site.urls)),

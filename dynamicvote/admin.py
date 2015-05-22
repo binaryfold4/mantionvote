@@ -5,7 +5,8 @@ class TrackAdmin(admin.ModelAdmin):
     list_display = ['title', 'uploaded_at', 'modified_at']
 
 class VoteAdmin(admin.ModelAdmin):
-    list_display = ['track', 'user', 'voteset_current']
+    list_display = ['track', 'user', 'voteset_current', 'created_at']
 
 admin.site.register(Track, TrackAdmin)
 admin.site.register(Vote, VoteAdmin)
+

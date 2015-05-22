@@ -2,22 +2,6 @@ $(document).ready(function() {
 
     $.fn.dataTable.ext.errMode = 'throw';
 
-    var votetable = $('#votetracks').dataTable( {
-        "bPaginate": false,
-        "bFilter": false, 
-        "ajax": {
-            "url": "/api/vote/?format=json",
-            "dataSrc": ""
-        },
-        "oLanguage": {
-            "sEmptyTable":     "No tracks selected"
-        },
-        "columnDefs": [
-            { "targets": 0, "data": "track.sc_id", "visible": false },
-            { "targets": 1, "data": "track.title" }
-        ]
-    } );   
-      
     var tracktable = $('#tracks').dataTable( {
         "aaSorting": [[0,'created_at']],
         "iDisplayLength": -1,
@@ -57,7 +41,26 @@ $(document).ready(function() {
             { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
-    
+
+    var votetable = $('#votetracks').dataTable( {
+        "bPaginate": false,
+        "bFilter": false,
+        "ajax": {
+            "url": "/api/vote/?format=json",
+            "dataSrc": ""
+        },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+          console.log(aData);
+        },
+        "oLanguage": {
+            "sEmptyTable":     "No tracks selected"
+        },
+        "columnDefs": [
+            { "targets": 0, "data": "track.sc_id", "visible": false },
+            { "targets": 1, "data": "track.title" }
+        ]
+    } );
+
     function calc_created_at(data) {
         date = new Date(data);
         return date.toISOString().substring(0, 10);
@@ -110,24 +113,32 @@ $(document).ready(function() {
         var trackTitle = trackData.title;
         var trackId = trackData.sc_id;
         var trackWaveform = trackData.waveform_url;
+        var trackArt = trackData.artwork_url;
 
         var waveFormRow = $(trackRow).next('tr');
 
-        $('.trackWidgetRow').not(trackRow).removeClass('playing');
-        $(waveFormRow).addClass('playing');
+        $('.trackWidgetRow').not(trackRow).removeClass('open');
+        $('#tracks tbody tr').removeClass('playing');
+        $(waveFormRow).addClass('open');
 
         if(trackId){
             if(currentTrack == trackId){
-                if(currentStream.paused)
+                if(currentStream.paused){
+                    $(trackRow).removeClass('playing');
                     currentStream.resume();
-                else
+                }
+                else{
+                    $(trackRow).addClass('playing');
                     currentStream.pause();
+                }
             }
             else{
                 var track = {
                     waveform_url: trackWaveform,
                     uri : '/tracks/'+trackId
                 };
+
+                $(waveFormRow).find('div.trackArt:eq(0)').html( trackArt ? '<img src="' + trackArt + '" />' : '');
 
                 var waveform = new Waveform({
                     container: $(waveFormRow).find('div.waveformContainer')[0],
@@ -155,6 +166,7 @@ $(document).ready(function() {
                     currentTrack = trackId;
                 });
 
+                $(trackRow).addClass('playing');
             }
         }
     
@@ -184,7 +196,6 @@ $(document).ready(function() {
                 votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
                 //votetable.fnAddData( [ trackId, trackTitle ]);
             };
-
         }
 
     } );
@@ -193,44 +204,60 @@ $(document).ready(function() {
           votetable.fnDeleteRow(this);
           // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
-    
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
     $('#vote').click( function () {
 
         var minVotes = 5;
+
         totalvote = votetable.fnSettings().fnRecordsTotal();
         if (totalvote < minVotes) {
-            alert("At least 5 votes are required");
+            alert("At least " + minVotes + " votes are required");
         } else {
             var votes = getTableId(votetable);
             console.log(votes);
-            // TODO: this should be REST'ful - FIX backend
-            //var url = "/vote/?" + jQuery.param(votes);
-            //location.href = url;
 
             function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
                 return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
             }
 
-            $.ajaxSetup({
+            $.ajax({
+
                 beforeSend: function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
-                }
-            });
+                },
 
-            $.ajax({
-                url : "/vote/",
+                url : "/myvote/",
                 type: "POST",
-                data: { vote: votes },
+                data: votes,
 
                 success: function(json) {
-                    console.log(json);
                     console.log("success");
+                    $("#status").text(json);
                 },
 
                 error: function(xhr,errmsg,err) {
+                    console.log("failure");
                     console.log(xhr.status + ": " + xhr.responseText);
+                    $("#status").text(err);
                 }
             })
 

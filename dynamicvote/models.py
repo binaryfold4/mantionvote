@@ -24,13 +24,12 @@ class Track(models.Model):
         return self.title
 
 class Vote(models.Model):
-    track = models.ForeignKey(Track, unique=False, related_name='track', null=False)
+    track = models.ForeignKey(Track, unique=False, null=False)
     user = models.ForeignKey(User, null=False)
     voteset_current = models.BooleanField(default=1)
     created_at = CreationDateTimeField()
     modified_at = ModificationDateTimeField()
     def __str__(self):
         return self.track.title
-
 
 
