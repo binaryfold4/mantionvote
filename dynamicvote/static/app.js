@@ -261,5 +261,39 @@ $(document).ready(function() {
         };
 
     } );
+
+    var logo = $('.logo');
+    var logoTop = $(logo).offset().top;
+    var logoLeft = $(logo).offset().left;
+
+    var mainTable = $('.main');
+
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var sinVal = Math.abs(Math.sin(scrollTop+90/3));
+
+        var boundsX = $(this).width();
+        var boundsY = $(this).height();
+
+        var offset = 54 + (scrollTop / 2);
+        var rotation = scrollTop/5;
+        var rotate, top, left;
+        if(scrollTop<50){
+            rotate = 'rotate3d(0,0,0,0)';
+            left =  logoLeft+'px';
+            top = logoTop+'px';
+            $(logo).css({ left: left, top: top});
+        }
+        else{
+            rotate = 'rotateZ('+ rotation + 'deg)';
+            left = Math.random()*boundsX + 'px';
+            top = offset + 'px';
+            if(sinVal<0.2){
+                $(logo).css({ left: left, top: top});
+            }
+        }
+
+        $(logo).css({top: offset + 'px', transform: rotate, opacity: sinVal});
+    });
         
 } );
