@@ -46,16 +46,14 @@ $(document).ready(function() {
             });
         },
         "columnDefs": [
-            { targets: 0, data: "sc_id", visible: false },
-            { targets: 1, className: "title", data: "title" },
-            { targets: 2, data: "duration", render: calc_sc_duration },
-            { targets: 3, data: "created_at", render: calc_created_at },
-            { targets: 4, data: "playback_count" },
-            { targets: 5, data: null, orderable: false, defaultContent: '' }
-            { "targets": 4, "data": "comment_count", "render": nullify },
-            { "targets": 5, "data": "download_count" },
-            { "targets": 6, "data": "playback_count" },
-            { "targets": 7, "data": "favoritings_count" }
+            { "targets": 0, "data": "sc_id", "visible": false },
+            { "targets": 1, "className": "title", "data": "title" },
+            { "targets": 2, "data": "duration", "render": calc_sc_duration },
+            { "targets": 3, "data": "created_at", "render": calc_created_at },
+            { "targets": 4, "data": "playback_count" },
+            { "targets": 5, "data": "comment_count", "render": nullify },
+            { "targets": 6, "data": "favoritings_count" },
+            { "targets": 7, "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
     
@@ -104,8 +102,6 @@ $(document).ready(function() {
 
     var currentStream;
     var currentTrack;
-        
-    };
 
     $('#tracks tbody').on( 'click', 'tr', function () {
        
@@ -142,8 +138,6 @@ $(document).ready(function() {
             else{
 
                 SC.get('/tracks/' + trackId, function(track){
-
-                    console.log(track);
 
                     var waveform = new Waveform({
                         container: $(waveFormRow).find('div.waveformContainer')[0],
