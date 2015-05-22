@@ -110,6 +110,7 @@ $(document).ready(function() {
         var trackTitle = trackData.title;
         var trackId = trackData.sc_id;
         var trackWaveform = trackData.waveform_url;
+        var trackArt = trackData.artwork_url;
 
         var waveFormRow = $(trackRow).next('tr');
 
@@ -128,6 +129,8 @@ $(document).ready(function() {
                     waveform_url: trackWaveform,
                     uri : '/tracks/'+trackId
                 };
+
+                $(waveFormRow).find('div.trackArt:eq(0)').html( trackArt ? '<img src="' + trackArt + '" />' : '');
 
                 var waveform = new Waveform({
                     container: $(waveFormRow).find('div.waveformContainer')[0],
@@ -184,7 +187,6 @@ $(document).ready(function() {
                 votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
                 //votetable.fnAddData( [ trackId, trackTitle ]);
             };
-
         }
 
     } );
