@@ -27,8 +27,9 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "fnDrawCallback": function() {
-           var votes = getTableId(votetable);
-           markSelected(tracktable,votes);    // send this to server
+
+//           var votes = getTableId(votetable);
+//           markSelected(tracktable,votes);    // send this to server
 
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
@@ -53,7 +54,7 @@ $(document).ready(function() {
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
             { "targets": 6, "data": "favoritings_count", "render": nullify },
-            { "targets": 7, "data": null, "orderable": false, defaultContent: '' }
+            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
     
@@ -103,30 +104,16 @@ $(document).ready(function() {
     var currentTrack;
 
     $('#tracks tbody').on( 'click', 'tr', function () {
-       
-        var trackTitle = tracktable.fnGetData(this).title;
-        var trackId = tracktable.fnGetData(this).sc_id;
-        var trackWaveform = tracktable.fnGetData(this).waveform_url;
+
+        var trackData = tracktable.fnGetData(this);
+        var trackTitle = trackData.title;
+        var trackId = trackData.sc_id;
+        var trackWaveform = trackData.waveform_url;
 
         var waveFormRow = $(this).next('tr');
 
         $('.trackWidgetRow').not(this).removeClass('playing');
         $(waveFormRow).addClass('playing');
-
-        var totalVotes = 20
-        
-        if ( !$(this).hasClass('selected') ) {
-            totalvote = votetable.fnSettings().fnRecordsTotal();
-            
-            if (totalvote > totalVotes-1) {
-                alert(totalVotes + " votes already reached!");
-            } else {
-                $(this).addClass('selected'); 
-                votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
-                //votetable.fnAddData( [ trackId, trackTitle ]);
-            };
-            
-        };
 
         if(trackId){
             if(currentTrack == trackId){
@@ -170,6 +157,35 @@ $(document).ready(function() {
             }
         }
     
+    } );
+
+    $('#tracks tbody').on( 'click', 'td.vote', function (e) {
+
+        e.stopPropagation();
+
+        var trackRow = $(this).closest('tr');
+        var trackData = tracktable.fnGetData(trackRow);
+        var trackTitle = trackData.title;
+        var trackId = trackData.sc_id;
+        var trackWaveform = trackData.waveform_url;
+
+        var waveFormRow = $(this).next('tr');
+
+        var totalVotes = 20
+
+        if ( !$(this).hasClass('selected') ) {
+            totalvote = votetable.fnSettings().fnRecordsTotal();
+
+            if (totalvote > totalVotes-1) {
+                alert(totalVotes + " votes already reached!");
+            } else {
+                $(this).addClass('selected');
+                votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
+                //votetable.fnAddData( [ trackId, trackTitle ]);
+            };
+
+        }
+
     } );
     
     $('#votetracks tbody').on( 'click', 'tr', function () {  
