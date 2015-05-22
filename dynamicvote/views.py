@@ -1,13 +1,13 @@
+from django import forms
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
-from django import forms
-from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
-from rest_framework import generics, permissions
-from dynamicvote.serializers import TrackSerializer, VoteSerializer
 from dynamicvote.models import Track, Vote
+from dynamicvote.serializers import TrackSerializer, VoteSerializer
+from rest_framework import generics, permissions
 
 class TrackView(generics.ListAPIView):
     model = Track
@@ -41,37 +41,43 @@ def about(request):
 
 @login_required
 def myvote(request):
-    return render(request, 'myvote.html')
+    if request.POST:
+        # move out of views.py
+
+        oldv = Vote.objects.filter(user = request.user)
+        oldv.update(voteset_current = 0)  # FIX: lazy, should only be changed after below is successful
+
+        try:
+            for voteno in range(1, 21):
+                voteparam = "vote" + str(voteno)
+                v = Vote()
+                tc = Track.objects.get(sc_id=request.POST[voteparam])
+
+                if Vote.objects.filter(track=tc, user=request.user, voteset_current=1):
+                    raise ValueError("error: adding duplicate vote")
+
+                v.track = tc
+                v.user = request.user
+                v.voteset_current = 1
+                v.save()
+        except:
+            pass # FIX
+
+        # read into array, interate through voteX
+        # ensure vote1-vote5 exist
+        # ensure each vote is unique
+        # set all votes of current user to current=0
+        # add in each of these votes with current=1
+        # respond with success message (which should be displayed on frontend)
+        # otherwise respond with error
+
+        return JsonResponse("saved", safe=False)
+
+    else:
+        return render(request, 'myvote.html')
 
 def showvotes(request):
     return render(request, 'showvotes.html')
-
-@login_required
-def dovote(request):
-    if request.method == 'POST':
-        vote_text = request.POST.get('vote')
-
-        print(request.POST)
-        response_data = {}
-
-        #post = Post(text=post_text, author=request.user)
-        #post.save()
-
-        response_data['result'] = 'Create post successful!'
-        #response_data['postpk'] = post.pk
-        #response_data['text'] = post.text
-        #response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
-        #response_data['author'] = post.author.username
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-    else:
-        return HttpResponse(
-            json.dumps({"error": "there was a problem"}),
-            content_type="application/json"
-        )
 
 @login_required
 def updateprofile(request):
