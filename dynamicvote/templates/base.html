@@ -54,11 +54,11 @@
 
             <p class="user"}
       {% if user.is_anonymous %}
-          <span class="loggedInAs">Not Logged In</span>
-          <a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}">Login with SoundCloud</a>
+          <span class="loggedInAs"></span><a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}">Not Logged In</a></span>
+          <a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="Login with SoundCloud"></a>
       {% else %}
           <span class="loggedInAs">Logged In as</span> {{ user }}
-          <a href="{% url 'django.contrib.auth.views.logout' %}">Sign Out</a>
+          <a href="{% url 'django.contrib.auth.views.logout' %}"><img src="http://connect.soundcloud.com/2/btn-disconnect-m.png" alt="Sign Out"></a>
       {% endif %}
             </p>
 
@@ -80,7 +80,9 @@
 
         <div class="sidebar">
 {% block sidebar %}
-    <button id="vote" class="btn btn-warning">save this vote</button>
+    <form method="POST" id="vote">
+    <input type="submit" class="btn btn-warning" value="save this vote">
+    </form>
 
             <table id="votetracks" class="table table-striped">
                 <thead>
@@ -106,7 +108,8 @@
                             <th class="id">sc_id</th>
                             <th class="title">title</th>
                             <th class="duration">duration</th>
-                            <th class="uploadedDate">uploaded date</th>
+                            <th class="comments">comments</th>
+                            <th class="downloads">downloads</th>
                             <th class="plays">plays</th>
                             <th class="addRemove">add/remove</th>
                         </tr>

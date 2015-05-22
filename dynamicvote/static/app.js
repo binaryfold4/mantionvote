@@ -52,6 +52,10 @@ $(document).ready(function() {
             { targets: 3, data: "created_at", render: calc_created_at },
             { targets: 4, data: "playback_count" },
             { targets: 5, data: null, orderable: false, defaultContent: '' }
+            { "targets": 4, "data": "comment_count", "render": nullify },
+            { "targets": 5, "data": "download_count" },
+            { "targets": 6, "data": "playback_count" },
+            { "targets": 7, "data": "favoritings_count" }
         ]
     } );
     
@@ -68,6 +72,15 @@ $(document).ready(function() {
         var minutes = padDigits(Math.floor(millis / 60000), 2);
         var seconds = ((millis % 60000) / 1000).toFixed(0);
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    function nullify(number) {
+        console.log(number)
+        if (number = 0) {
+            return 5;
+        } else {
+            return number;
+        }
     }
     
     function getTableId(table) {
@@ -92,11 +105,12 @@ $(document).ready(function() {
     var currentStream;
     var currentTrack;
         
+    };
+
     $('#tracks tbody').on( 'click', 'tr', function () {
        
         var trackTitle = tracktable.fnGetData(this).title;
         var trackId = tracktable.fnGetData(this).sc_id;
-        var duration = tracktable.fnGetData(this).duration;
 
         var waveFormRow = $(this).next('tr');
 
@@ -179,8 +193,37 @@ $(document).ready(function() {
             var votes = getTableId(votetable);
             console.log(votes);
             // TODO: this should be REST'ful - FIX backend
-            var url = "/vote/?" + jQuery.param(votes);
-            location.href = url;
+            //var url = "/vote/?" + jQuery.param(votes);
+            //location.href = url;
+
+            function csrfSafeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    }
+                }
+            });
+
+            $.ajax({
+                url : "/vote/",
+                type: "POST",
+                data: { vote: votes },
+
+                success: function(json) {
+                    console.log(json);
+                    console.log("success");
+                },
+
+                error: function(xhr,errmsg,err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            })
+
+
         };
 
     } );
