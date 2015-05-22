@@ -179,6 +179,7 @@ $(document).ready(function() {
         var trackRow = $(this).closest('tr');
         var trackData = tracktable.fnGetData(trackRow);
         var trackId = trackData.sc_id;
+        var trackTitle = trackData.title;
 
         var totalVotes = 20
 
