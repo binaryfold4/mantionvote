@@ -19,8 +19,8 @@ pip install -r requirements.txt
 ####Using:
 
 (If running in production, configure a real DB first in settings.py)
-
 (Shouldn't be used in production yet anyway)
+(populate settings_local.py - need to expand on this)
 
 ```bash
 source env/bin/activate

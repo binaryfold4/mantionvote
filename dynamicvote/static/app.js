@@ -32,10 +32,10 @@ $(document).ready(function() {
         },
         "columnDefs": [
             { "targets": 0, "data": "sc_id", "visible": false },
-            { "targets": 1, "data": "created_at", "render": calc_created_at },
-            { "targets": 2, "data": "title" },
-            { "targets": 3, "data": "duration", "render": calc_sc_duration },
-            { "targets": 4, "data": "comment_count" },
+            { "targets": 1, "data": "title" },
+            { "targets": 2, "data": "duration", "render": calc_sc_duration },
+            { "targets": 3, "data": "created_at", "render": calc_created_at },
+            { "targets": 4, "data": "comment_count", "render": nullify },
             { "targets": 5, "data": "download_count" },
             { "targets": 6, "data": "playback_count" },
             { "targets": 7, "data": "favoritings_count" }
@@ -56,6 +56,15 @@ $(document).ready(function() {
         var seconds = ((millis % 60000) / 1000).toFixed(0);
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
+
+    function nullify(number) {
+        console.log(number)
+        if (number = 0) {
+            return 5;
+        } else {
+            return number;
+        }
+    }
     
     function getTableId(table) {
         var votes = {};
@@ -74,8 +83,8 @@ $(document).ready(function() {
         };   
         //console.log(table);
         //console.log(votes);
-    };  
-        
+    };
+
     $('#tracks tbody').on( 'click', 'tr', function () {
        
         var trackTitle = tracktable.fnGetData(this).title;
@@ -113,8 +122,37 @@ $(document).ready(function() {
             var votes = getTableId(votetable);
             console.log(votes);
             // TODO: this should be REST'ful - FIX backend
-            var url = "/vote/?" + jQuery.param(votes);
-            location.href = url;
+            //var url = "/vote/?" + jQuery.param(votes);
+            //location.href = url;
+
+            function csrfSafeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    }
+                }
+            });
+
+            $.ajax({
+                url : "/vote/",
+                type: "POST",
+                data: { vote: votes },
+
+                success: function(json) {
+                    console.log(json);
+                    console.log("success");
+                },
+
+                error: function(xhr,errmsg,err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            })
+
+
         };
 
     } );

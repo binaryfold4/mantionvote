@@ -1,0 +1,5 @@
+# Rename to settings_local.py
+SECRET_KEY = ''
+SOCIAL_AUTH_SOUNDCLOUD_KEY = ''
+SOCIAL_AUTH_SOUNDCLOUD_SECRET = ''
+DEBUG = True

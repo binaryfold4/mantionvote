@@ -9,4 +9,3 @@ class VoteAdmin(admin.ModelAdmin):
 
 admin.site.register(Track, TrackAdmin)
 admin.site.register(Vote, VoteAdmin)
-
