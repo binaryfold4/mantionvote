@@ -2,22 +2,6 @@ $(document).ready(function() {
 
     $.fn.dataTable.ext.errMode = 'throw';
 
-    var votetable = $('#votetracks').dataTable( {
-        "bPaginate": false,
-        "bFilter": false, 
-        "ajax": {
-            "url": "/api/vote/?format=json",
-            "dataSrc": ""
-        },
-        "oLanguage": {
-            "sEmptyTable":     "No tracks selected"
-        },
-        "columnDefs": [
-            { "targets": 0, "data": "track.sc_id", "visible": false },
-            { "targets": 1, "data": "track.title" }
-        ]
-    } );   
-      
     var tracktable = $('#tracks').dataTable( {
         "aaSorting": [[0,'created_at']],
         "iDisplayLength": -1,
@@ -57,7 +41,26 @@ $(document).ready(function() {
             { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
-    
+
+    var votetable = $('#votetracks').dataTable( {
+        "bPaginate": false,
+        "bFilter": false,
+        "ajax": {
+            "url": "/api/vote/?format=json",
+            "dataSrc": ""
+        },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+          console.log(aData);
+        },
+        "oLanguage": {
+            "sEmptyTable":     "No tracks selected"
+        },
+        "columnDefs": [
+            { "targets": 0, "data": "track.sc_id", "visible": false },
+            { "targets": 1, "data": "track.title" }
+        ]
+    } );
+
     function calc_created_at(data) {
         date = new Date(data);
         return date.toISOString().substring(0, 10);
@@ -114,15 +117,20 @@ $(document).ready(function() {
 
         var waveFormRow = $(trackRow).next('tr');
 
-        $('.trackWidgetRow').not(trackRow).removeClass('playing');
-        $(waveFormRow).addClass('playing');
+        $('.trackWidgetRow').not(trackRow).removeClass('open');
+        $('#tracks tbody tr').removeClass('playing');
+        $(waveFormRow).addClass('open');
 
         if(trackId){
             if(currentTrack == trackId){
-                if(currentStream.paused)
+                if(currentStream.paused){
+                    $(trackRow).removeClass('playing');
                     currentStream.resume();
-                else
+                }
+                else{
+                    $(trackRow).addClass('playing');
                     currentStream.pause();
+                }
             }
             else{
                 var track = {
@@ -158,6 +166,7 @@ $(document).ready(function() {
                     currentTrack = trackId;
                 });
 
+                $(trackRow).addClass('playing');
             }
         }
     
