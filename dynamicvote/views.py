@@ -63,9 +63,10 @@ def myvote(request):
         except:
             pass # FIX
 
-        # read into array, interate through voteX
-        # ensure vote1-vote5 exist
+        # iterate through voteX
+        # ensure vote1-vote5 all exist
         # ensure each vote is unique
+        # ensure each track ID is actually valid
         # set all votes of current user to current=0
         # add in each of these votes with current=1
         # respond with success message (which should be displayed on frontend)
