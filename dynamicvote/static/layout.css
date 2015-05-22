@@ -264,11 +264,21 @@ a:active {
   position: fixed;
   top: 54px;
   left: 290px;
-  z-index: 2;
+  z-index: -1;
   background: transparent url(assets/aphex-twin-logo.png) no-repeat center center;
 }
+@media (min-width: 80em) {
+  .logo {
+    left: 190px;
+  }
+}
+@media (min-width: 120em) {
+  .logo {
+    left: 290px;
+  }
+}
 .wrap {
-  padding: 160px 60px;
+  padding: 260px 60px 100px;
 }
 .wrap:before,
 .wrap:after {
@@ -282,40 +292,33 @@ a:active {
 .ie7 .wrap {
   zoom: 1;
 }
-@media (min-width: 30em) {
-  .wrap {
-    padding-top: 120px;
-  }
-}
 .topbar {
   width: 100%;
-  height: 140px;
+  height: 54px;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 1;
   background-color: #310520;
-  padding: 5px 0 0;
-}
-@media (min-width: 30em) {
-  .topbar {
-    height: 100px;
-  }
-}
-@media (min-width: 48em) {
-  .topbar {
-    padding-top: 35px;
-  }
+  padding: 20px 60px 0;
 }
 .topbar .sitename {
   float: left;
   line-height: 1.1em;
-  margin: 0 4.0257649%;
+  margin: 0 60px;
 }
-@media (min-width: 48em) {
+@media (min-width: 80em) {
   .topbar .sitename {
-    width: 13.12399356%;
-    float: left;
+    width: 300px;
+    position: fixed;
+    top: 20px;
+    left: 60px;
+    margin: 0;
+  }
+}
+@media (min-width: 120em) {
+  .topbar .sitename {
+    width: 360px;
   }
 }
 .topbar .sitename a {
@@ -332,19 +335,18 @@ a:active {
 }
 .topbar .topbarmain {
   width: 100%;
-  max-width: 1440px;
   overflow: hidden;
   margin: 0;
 }
 @media (min-width: 48em) {
   .topbar .topbarmain {
-    width: 75.52334944%;
     float: left;
+    padding-left: 360px;
   }
 }
 @media (min-width: 120em) {
   .topbar .topbarmain {
-    width: 57.97101449%;
+    padding-left: 420px;
   }
 }
 .topbar .user {
@@ -366,7 +368,6 @@ a:active {
   .topbar .user {
     position: static;
     float: right;
-    margin-top: 20px;
   }
 }
 .topbar .user a {
@@ -391,7 +392,7 @@ a:active {
 }
 .topbar .navlinks {
   padding: 0;
-  margin: 30px 0 0 4.0257649%;
+  margin: 0;
 }
 .topbar .navlinks:before,
 .topbar .navlinks:after {
@@ -405,55 +406,30 @@ a:active {
 .ie7 .topbar .navlinks {
   zoom: 1;
 }
-@media (min-width: 30em) {
-  .topbar .navlinks {
-    margin-top: 20px;
-  }
-}
-@media (min-width: 48em) {
-  .topbar .navlinks {
-    margin-top: 16px;
-  }
-}
-@media (min-width: 64em) {
-  .topbar .navlinks {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-@media (min-width: 120em) {
-  .topbar .navlinks {
-    margin: 0;
-  }
-}
 .topbar .navlinks li {
   float: left;
   list-style-type: none;
   padding: 0;
-  margin: 0 15px 0 0;
-}
-@media (min-width: 30em) {
-  .topbar .navlinks li {
-    margin-right: 35px;
-  }
-}
-@media (min-width: 120em) {
-  .topbar .navlinks li {
-    margin-right: 70px;
-  }
+  margin: 0 100px 0 0;
+  white-space: nowrap;
 }
 .topbar .navlinks li.first {
+  margin-right: 70px;
+}
+.topbar .navlinks li.info {
+  cursor: pointer;
+}
+.topbar .navlinks li.info .showText {
+  display: inline;
+}
+.topbar .navlinks li.info .hideText {
   display: none;
 }
-@media (min-width: 48em) {
-  .topbar .navlinks li.first {
-    display: block;
-  }
+.topbar .navlinks li.info.open .hideText {
+  display: inline;
 }
-@media (min-width: 120em) {
-  .topbar .navlinks li.first {
-    margin-right: 140px;
-  }
+.topbar .navlinks li.info.open .showText {
+  display: none;
 }
 .topbar .navlinks li a {
   border-bottom: 1px solid transparent;
@@ -468,6 +444,17 @@ a:active {
 .topbar .navlinks li.currentpage a:active {
   border-color: #cc4400;
 }
+.infoText {
+  max-width: 750px;
+  display: none;
+  position: absolute;
+  top: 125px;
+  left: 590px;
+  background-color: #310520;
+}
+.infoText.open {
+  display: block;
+}
 .sidebar {
   width: 100%;
   overflow: hidden;
@@ -475,7 +462,7 @@ a:active {
 }
 @media (min-width: 80em) {
   .sidebar {
-    width: 300px;
+    width: 260px;
     position: fixed;
     top: 250px;
     left: 60px;
@@ -486,6 +473,42 @@ a:active {
     width: 360px;
   }
 }
+.saveBtn {
+  float: right;
+  background: transparent none;
+  font-size: 1.125em;
+  color: #fff;
+  text-decoration: underline;
+  padding: 10px 0;
+  border: 0;
+  margin: -60px 0 0;
+}
+.saveBtn:hover,
+.saveBtn:focus {
+  color: #cefadf;
+  outline: none;
+}
+#votetracks thead {
+  display: none;
+}
+#votetracks td {
+  background: #ff5500 url(assets/remove.png) no-repeat right 20px center;
+  color: #fff;
+  padding-left: 20px;
+  padding-right: 60px;
+  border-bottom: 2px solid #310520;
+}
+#votetracks td.dataTables_empty {
+  background-image: none;
+}
+.slekshun .selected {
+  display: block;
+  color: #ff5500;
+}
+.slekshun .remaining {
+  display: block;
+  padding-left: 20px;
+}
 .main {
   width: 100%;
   overflow: hidden;
@@ -494,7 +517,7 @@ a:active {
 @media (min-width: 80em) {
   .main {
     float: left;
-    padding-left: 360px;
+    padding-left: 320px;
   }
 }
 @media (min-width: 120em) {
@@ -502,13 +525,58 @@ a:active {
     padding-left: 420px;
   }
 }
-.topText {
-  padding-left: 110px;
+h1 {
+  font-weight: 100;
+  font-size: 2.5em;
+  margin: 0 0 90px;
 }
-/* Sidebar navigation */
+.numTracks {
+  color: #cefadf;
+  margin-left: 108px;
+}
+.dataTables_length {
+  display: none;
+}
+div.dataTables_filter {
+  width: 50%;
+  float: right;
+  background: transparent url(assets/dots.png) repeat-x left bottom;
+  text-align: left;
+  padding-bottom: 10px;
+  margin: -60px 0 150px;
+}
+div.dataTables_filter label {
+  width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.125em;
+  line-height: 1.5em;
+  font-family: 'Inconsolata', arial, helvetica, sans-serif;
+  text-align: left;
+  color: #ffffff;
+  margin: 0;
+}
+div.dataTables_filter input {
+  width: 100%;
+  background: transparent;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 1.5em;
+  font-family: 'Inconsolata', arial, helvetica, sans-serif;
+  text-align: left;
+  color: #ffffff;
+  margin: 0;
+  padding-left: 20px;
+  border: 0;
+}
+div.dataTables_filter input:focus {
+  outline: none;
+}
 table.dataTable {
   width: 100% !important;
-  margin: 20px 0 !important;
+  clear: both;
+  margin: 0!important;
 }
 /* !importants to overwrite inline styles and bootstrap */
 .table thead tr,
@@ -517,6 +585,9 @@ table.dataTable {
 }
 .table tbody tr {
   background: transparent url(assets/dots.png) repeat-x left top;
+}
+.table tbody tr.obscured {
+  background-image: none;
 }
 .table thead tr th {
   padding: 20px 30px 18px 0;
@@ -527,25 +598,28 @@ table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc:after {
   top: 20px;
 }
+table.dataTable thead .sorting:after {
+  opacity: 0;
+}
 .table tbody tr td {
   padding: 20px 20px 18px 0;
   border: 0;
 }
-.table tbody tr.selected td,
+.table tbody tr.voted td,
 .table tbody tr.odd:hover td,
 .table tbody tr.even:hover td {
-  background-color: #ff5500;
+  background-color: #ff5500 !important;
 }
 .table tbody tr.odd:hover td.title,
 .table tbody tr.even:hover td.title {
   cursor: pointer;
 }
 .table tbody tr td.title {
-  background: transparent url(assets/play-icon.png) no-repeat 24px center;
+  background: transparent url(assets/play.png) no-repeat 24px 20px;
   padding-left: 70px;
 }
 .table tbody tr.playing td.title {
-  background-image: url(assets/pause-icon.png);
+  background-image: url(assets/pause.png);
 }
 .table thead tr th.vote,
 .table tbody tr td.vote {
@@ -554,10 +628,11 @@ table.dataTable thead .sorting_desc:after {
   padding-right: 0;
 }
 .table tbody tr td.vote {
-  background: transparent url(assets/add-icon.png) no-repeat center 20px;
+  background: transparent url(assets/add.png) no-repeat center 20px;
+  cursor: pointer;
 }
 .table tbody tr.voted td.vote {
-  background-image: url(assets/remove-icon.png);
+  background-image: url(assets/remove.png);
 }
 .table tbody .trackWidgetRow {
   height: 100px;

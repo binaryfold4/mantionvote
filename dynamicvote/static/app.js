@@ -57,7 +57,7 @@ $(document).ready(function() {
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
-            { "targets": 1, "data": "track.title" }
+            { "targets": 1, "data": "track.title", "orderable": false }
         ]
     } );
 
@@ -294,6 +294,13 @@ $(document).ready(function() {
         }
 
         $(logo).css({top: offset + 'px', transform: rotate, opacity: sinVal});
+    });
+
+    $('.navlinks .info').bind("click", function()
+    {
+        console.log('clicked');
+        $(this).toggleClass('open');
+        $('.infoText').toggleClass('open');
     });
         
 } );

@@ -26,27 +26,29 @@ a
     &:active    { text-decoration: none; color: darken(@color_brand,10%); }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-// Layouts
-//----------------------------------------------------------------------------------------------------------------------
 
-.logo { width: 206px; height: 206px; position: fixed; top: 54px; left: 290px; z-index: 2; background: transparent url(assets/aphex-twin-logo.png) no-repeat center center; }
-
-.wrap
-{ .clearfix(); padding: 160px 60px;
-    @media (min-width: @small) { padding-top: 120px; }
+.logo
+{   width: 206px; height: 206px; position: fixed; top: 54px; left: 290px; z-index: -1; background: transparent url(assets/aphex-twin-logo.png) no-repeat center center;
+    @media (min-width: @xlarge) { left: 190px; }
+    @media (min-width: @max)    { left: 290px; }
 }
 
+.wrap
+{   .clearfix(); padding: 260px 60px 100px;
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Topbar
+//----------------------------------------------------------------------------------------------------------------------
 
 .topbar
-{   width: 100%; height: 140px; position: fixed; left: 0; top: 0; z-index: 1; background-color: @color_brand_dark; padding: 5px 0 0;
-    @media (min-width: @small)  { height: 100px; }
-    @media (min-width: @medium) { padding-top: 35px; }
-
+{   width: 100%; height: 54px; position: fixed; left: 0; top: 0; z-index: 1; background-color: @color_brand_dark; padding: 20px 60px 0;
 
     .sitename
-    {   float: left; line-height: 1.1em; margin: 0 percentage(100/2484);
-        @media (min-width: @medium) { width: percentage(326/2484); float: left; }
+    {   float: left; line-height: 1.1em; margin: 0 60px;
+        @media (min-width: @xlarge) { width: 300px; position: fixed; top: 20px; left: 60px; margin: 0; }
+        @media (min-width: @max)    { width: 360px; }
 
         a
         {   color: @color_brand;
@@ -57,15 +59,15 @@ a
     }
 
     .topbarmain
-    {   width: 100%; max-width: 1440px; overflow: hidden; margin: 0;
-        @media (min-width: @medium) { width: percentage(1876/2484); float: left; }
-        @media (min-width: @max) { width: percentage(1440/2484); }
+    {   width: 100%; overflow: hidden; margin: 0;
+        @media (min-width: @medium) { float: left; padding-left: 360px; }
+        @media (min-width: @max)    { padding-left: 420px; }
     }
 
     .user
     {   width: auto; position: absolute; top: 5px; right: percentage(100/2484); line-height: 1.1em; text-align: right; color: @color_brand; margin: 0;
         @media (min-width: @medium) { color: #fff; }
-        @media (min-width: @large)  { position: static; float: right; margin-top: 20px; }
+        @media (min-width: @large)  { position: static; float: right; }
 
         a
         {   display: block; padding-right: 20px; margin-left: 0;
@@ -80,24 +82,29 @@ a
     }
 
     .navlinks
-    {   .clearfix(); padding: 0; margin: 30px 0 0 percentage(100/2484);
-        @media (min-width: @small)  { margin-top: 20px; }
-        @media (min-width: @medium) { margin-top: 16px; }
-        @media (min-width: @large)  { margin-left: 0; margin-right: 0; }
-        @media (min-width: @max) { margin: 0; }
+    {   .clearfix(); padding: 0; margin: 0;
+
 
         li
-        {   float: left; list-style-type: none; padding: 0; margin: 0 15px 0 0;
-            @media (min-width: @small)  { margin-right: 35px; }
-            @media (min-width: @max) { margin-right: 70px; }
+        {   float: left; list-style-type: none; padding: 0; margin: 0 100px 0 0; white-space: nowrap;
 
             &.first
-            {   display: none;
-                @media (min-width: @medium) { display: block; }
-                @media (min-width: @max)  { margin-right: 140px; }
+            {   margin-right: 70px;
+            }
+
+            &.info
+            {   cursor: pointer;
+                .showText { display: inline; }
+                .hideText { display: none; }
+            }
+            &.info.open
+            {
+                .hideText { display: inline; }
+                .showText { display: none; }
             }
 
             a { border-bottom: 1px solid transparent; }
+
             &.currentpage a
             {   border-color: #fff;
                 &:hover, &:focus { border-color: @color_brand; }
@@ -108,72 +115,105 @@ a
 }
 
 
+.infoText
+{   max-width: 750px; display: none; position: absolute; top: 125px; left: 590px; background-color: @color_brand_dark;
+    &.open { display: block; }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Sidebar
+//----------------------------------------------------------------------------------------------------------------------
 
 .sidebar
 {   width: 100%; overflow: hidden; margin: 0;
-    @media (min-width: @xlarge)  { width: 300px; position: fixed; top: 250px; left: 60px; }
+    @media (min-width: @xlarge)  { width: 260px; position: fixed; top: 250px; left: 60px; }
     @media (min-width: @max)     { width: 360px; }
 }
 
+
+.saveBtn
+{   float: right; background: transparent none; .font-size(18); color: #fff; text-decoration: underline; padding: 10px 0; border: 0; margin: -60px 0 0;
+    &:hover, &:focus { color: @color_brand_alt; outline: none; }
+}
+
+#votetracks
+{
+    thead { display: none; }
+    td
+    {   background: @color_brand url(assets/remove.png) no-repeat right 20px center; color: #fff; padding-left: 20px; padding-right: 60px; border-bottom: 2px solid @color_brand_dark;
+        &.dataTables_empty { background-image: none; }
+    }
+}
+
+.slekshun
+{
+    .selected { display: block; color: @color_brand; }
+    .remaining { display: block; padding-left: 20px;  }
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// Main Column
+//----------------------------------------------------------------------------------------------------------------------
+
 .main
 {   width: 100%; overflow: hidden; margin: 0;
-    @media (min-width: @xlarge)  { float: left; padding-left: 360px; }
+    @media (min-width: @xlarge)  { float: left; padding-left: 320px; }
     @media (min-width: @max)     { padding-left: 420px; }
 }
 
 
-.topText { padding-left: 110px; }
 
-/* Sidebar navigation */
-//.nav-sidebar {
-//  margin-right: -11px; /* 20px padding + 1px border */
-//  margin-bottom: 10px;
-//  margin-left: -10px;
-//}
-//.nav-sidebar > li > a {
-//  padding-right: 10px;
-//  padding-left: 10px;
-//}
-//.nav-sidebar > .active > a,
-//.nav-sidebar > .active > a:hover,
-//.nav-sidebar > .active > a:focus {
-//  color: #fff;
-//  background-color: #428bca;
-//}
+h1 { font-weight: 100; .font-size(40); margin: 0 0 90px; }
+
+.numTracks { color: @color_brand_alt; margin-left: 108px; }
+
+.dataTables_length { display: none;  }
+
+div.dataTables_filter
+{   width: 50%; float: right; background: transparent url(assets/dots.png) repeat-x left bottom; text-align: left; padding-bottom: 10px; margin: -60px 0 150px;
+    label { width: 100%; .defaultFont(@font-size: 1.125em;); }
+    input
+    {   width: 100%; background: transparent; .defaultFont(); padding-left: 20px; border: 0;
+        &:focus { outline: none; }
+    }
+}
 
 
 
 
-
-table.dataTable { width: 100% !important; margin: 20px 0 !important; } /* !importants to overwrite inline styles and bootstrap */
+table.dataTable { width: 100% !important; clear: both; margin: 0!important; } /* !importants to overwrite inline styles and bootstrap */
 
 .table thead tr,
 .table tbody tr     { position: relative; }
-.table tbody tr     { background: transparent url(assets/dots.png) repeat-x left top;  }
+.table tbody tr
+{   background: transparent url(assets/dots.png) repeat-x left top;
+    &.obscured { background-image: none; }
+}
 
 .table thead tr th  { padding: 20px 30px 18px 0; border: 0;  }
 
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc:after { top: 20px; }
-
+table.dataTable thead .sorting:after      { opacity: 0; }
 
 .table tbody tr td  { padding: 20px 20px 18px 0; border: 0; }
 
-.table tbody tr.selected td,
+.table tbody tr.voted td,
 .table tbody tr.odd:hover td,
-.table tbody tr.even:hover td   { background-color: @color_brand; }
+.table tbody tr.even:hover td   { background-color: @color_brand !important; }
 
 .table tbody tr.odd:hover td.title,
 .table tbody tr.even:hover td.title { cursor: pointer; }
 
-.table tbody tr td.title            { background: transparent url(assets/play-icon.png) no-repeat 24px center; padding-left: 70px; }
-.table tbody tr.playing td.title    { background-image: url(assets/pause-icon.png); }
+.table tbody tr td.title            { background: transparent url(assets/play.png) no-repeat 24px 20px; padding-left: 70px; }
+.table tbody tr.playing td.title    { background-image: url(assets/pause.png); }
 
 .table thead tr th.vote,
 .table tbody tr td.vote         { width: 75px; text-align: center; padding-right: 0; }
-.table tbody tr td.vote         { background: transparent url(assets/add-icon.png) no-repeat center 20px; }
-.table tbody tr.voted td.vote   { background-image: url(assets/remove-icon.png); }
+.table tbody tr td.vote         { background: transparent url(assets/add.png) no-repeat center 20px; cursor: pointer; }
+.table tbody tr.voted td.vote   { background-image: url(assets/remove.png); }
 
 
 .table tbody .trackWidgetRow
@@ -190,10 +230,6 @@ table.dataTable thead .sorting_desc:after { top: 20px; }
         canvas { width: 100% !important; height: 100px; }
     }
 }
-
-
-
-
 
 
 

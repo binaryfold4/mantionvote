@@ -46,7 +46,7 @@
 
         <div class="topbarmain">
 
-            <p class="user"}
+            <p class="user">
                 {% if user.is_anonymous %}
                     <span class="loggedInAs"><a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}">Not Logged In</a></span>
                     <a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="Login with SoundCloud"></a>
@@ -59,14 +59,19 @@
             <ul class="navlinks">
 
                 <li class="first">(*_*)</li>
-                <li><a href="{% url 'about' %}">About</a></li>
+                <!--<li><a href="{% url 'about' %}">About</a></li>-->
+                <li class="info open">Info <span class="hideText">-</span><span class="showText">+</span></li>
+
+                <li><a href="/">All Tracks</a></li>
+
+                <!--<li><a href="/">Playlists</a></li>-->
 
             {% if not user.is_anonymous %}
                 <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'myvote' %}" class="currentpage">Your Vote</a></li>
             {% endif %}
 
-                <li ><a href="{% url 'showvotes' %}">Show Total Votes</a></li>
+                <!--<li ><a href="{% url 'showvotes' %}">Show Total Votes</a></li>-->
             </ul>
 
         </div>
@@ -78,13 +83,19 @@
         <div class="sidebar">
         {% block sidebar %}
 
-            <button type="button" id="vote" class="btn btn-warning">save this vote</button>&nbsp;&nbsp;<span id="status"></span>
+            <p class="slekshun">
+                my slekshun
+                <span class="selected">2 selected</span>
+                <span class="remaining">14 remaining</span>
+            </p>
+
+            <button type="button" id="vote" class="saveBtn">save</button> <span id="status"></span>
 
             <table id="votetracks" class="table table-striped">
                 <thead>
                     <tr>
                         <th>sc_id</th>
-                        <th>your top 20 <br><small>(click to remove tracks)</small></th>
+                        <th></th>
                     </tr>
                 </thead>
             </table>
@@ -95,20 +106,21 @@
         <div class="main">
         {% block main %}
 
-            <div class="topText">
+            <div class="infoText open">
                 <p>click to select top 20 tracks - voting can be changed after you save by visiting this page again.</p>
             </div>
 
-            <div class="topText">
-                <p>all 227 tracks - user18081971</p>
-            </div>
+
+            <h1>All Tracks</h1>
+
+            <p class="numTracks">227 tracks</p>
 
             <div class="table-responsive">
                 <table class="table" id="tracks">
                     <thead>
                         <tr>
                             <th class="id">sc_id</th>
-                            <th class="title">Track Title</th>
+                            <th class="title">Title</th>
                             <th class="duration">Duration</th>
                             <th class="date">Date</th>
                             <th class="plays">Plays</th>
