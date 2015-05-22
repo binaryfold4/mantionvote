@@ -230,7 +230,7 @@ $(document).ready(function() {
         }
 
     } );
-    
+
     $('#votetracks tbody').on( 'click', 'tr', function () {  
           votetable.fnDeleteRow(this);
           // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
@@ -343,5 +343,5 @@ $(document).ready(function() {
         $(this).toggleClass('open');
         $('.infoText').toggleClass('open');
     });
-        
+
 } );
