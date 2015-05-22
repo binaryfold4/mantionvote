@@ -16,6 +16,8 @@ class Track(models.Model):
     stream_url = models.CharField(max_length=200, null=True)
     download_url = models.CharField(max_length=200, null=True)
     permalink_url = models.CharField(max_length=200, null=True)
+    artwork_url = models.CharField(max_length=200, null=True)
+    waveform_url = models.CharField(max_length=200, null=True)
     created_at = CreationDateTimeField()
     modified_at = ModificationDateTimeField()
     def __str__(self):

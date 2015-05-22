@@ -72,6 +72,8 @@ class Command(BaseCommand):
             t.stream_url = track.stream_url
             t.download_url = downloadurl
             t.permalink_url = track.permalink_url
+            t.artwork_url = track.artwork_url
+            t.waveform_url = track.waveform_url
 
             t.save()
 
