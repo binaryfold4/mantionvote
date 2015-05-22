@@ -107,6 +107,7 @@ $(document).ready(function() {
        
         var trackTitle = tracktable.fnGetData(this).title;
         var trackId = tracktable.fnGetData(this).sc_id;
+        var trackWaveform = tracktable.fnGetData(this).waveform_url;
 
         var waveFormRow = $(this).next('tr');
 
@@ -136,35 +137,35 @@ $(document).ready(function() {
                     currentStream.pause();
             }
             else{
+                var track = {
+                    waveform_url: trackWaveform,
+                    uri : '/tracks/'+trackId
+                };
 
-                SC.get('/tracks/' + trackId, function(track){
+                var waveform = new Waveform({
+                    container: $(waveFormRow).find('div.waveformContainer')[0],
+                    innerColor: '#fff',
+                    outerColor: '#310520',
+                    playedColor: '#f50'
+                });
 
-                    var waveform = new Waveform({
-                        container: $(waveFormRow).find('div.waveformContainer')[0],
-                        innerColor: '#fff',
-                        outerColor: '#310520',
-                        playedColor: '#f50'
-                    });
-
-                    waveform.dataFromSoundCloudTrack(track);
-                    var streamOptions = waveform.optionsForSyncedStream({
-                        loadedColor: '#fff',
-                        playedColor: '#f50'
-                    });
+                waveform.dataFromSoundCloudTrack(track);
+                var streamOptions = waveform.optionsForSyncedStream({
+                    loadedColor: '#fff',
+                    playedColor: '#f50'
+                });
 
 //                    streamOptions.ontimedcomments = function(comments){
 ////                            console.log(comments);
 //                    };
 
-                    SC.stream(track.uri, streamOptions, function(stream){
-                        if(currentStream){
-                            currentStream.destruct();
-                        }
-                        stream.play();
-                        currentStream = stream;
-                        currentTrack = trackId;
-                    });
-
+                SC.stream(track.uri, streamOptions, function(stream){
+                    if(currentStream){
+                        currentStream.destruct();
+                    }
+                    stream.play();
+                    currentStream = stream;
+                    currentTrack = trackId;
                 });
 
             }
