@@ -38,6 +38,8 @@
     <style type="text/css">
         .trackWidgetRow { display: none; height: 120px; }
         .trackWidgetRow td { padding: 0!important; }
+        .trackArt { width: 120px; height: 120px; }
+        .waveformContainer { height: 120px; width: 100%; position: absolute; right: 0; padding-left: 120px; }
         .trackWidgetRow.playing { display: table-row; }
     </style>
 
@@ -99,13 +101,11 @@
                     <thead>
                         <tr>
                             <th class="id">sc_id</th>
-                            <th class="uploadedDate">uploaded date</th>
                             <th class="title">title</th>
                             <th class="duration">duration</th>
-                            <th class="comments">comments</th>
-                            <th class="downloads">downloads</th>
+                            <th class="uploadedDate">uploaded date</th>
                             <th class="plays">plays</th>
-                            <th class="loves">loves</th>
+                            <th class="addRemove">add/remove</th>
                         </tr>
                     </thead>
                 </table>

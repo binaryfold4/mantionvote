@@ -30,27 +30,23 @@ $(document).ready(function() {
             var last=null;
 
             api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
-                if ( last !== sc_id ) {
-                    $(rows).eq( i ).after(
-                        '<tr class="trackWidgetRow">'
-                        +'<td class="trackArt"></td>'
-                        +'<td class="waveformContainer" colspan="6"></td>'
-                        +'</tr>'
-                    );
-
-                    last = sc_id;
-                }
-            } );
+                $(rows).eq( i ).after(
+                    '<tr class="trackWidgetRow">'
+                    +'<td colspan="6">'
+                    +'<div class="waveformContainer"></div>'
+                    +'<div class="trackArt"></div>'
+                    +'</td>'
+                    +'</tr>'
+                );
+            });
         },
         "columnDefs": [
-            { "targets": 0, "data": "sc_id", "visible": false },
-            { "targets": 1, "data": "created_at", "render": calc_created_at },
-            { "targets": 2, "data": "title" },
-            { "targets": 3, "data": "duration", "render": calc_sc_duration },
-            { "targets": 4, "data": "comment_count" },
-            { "targets": 5, "data": "download_count" },
-            { "targets": 6, "data": "playback_count" },
-            { "targets": 7, "data": "favoritings_count" }
+            { targets: 0, data: "sc_id", visible: false },
+            { targets: 1, className: "title", data: "title" },
+            { targets: 2, data: "duration", render: calc_sc_duration },
+            { targets: 3, data: "created_at", render: calc_created_at },
+            { targets: 4, data: "playback_count" },
+            { targets: 5, data: null, orderable: false, defaultContent: '' }
         ]
     } );
     
@@ -128,19 +124,21 @@ $(document).ready(function() {
                     console.log(track);
 
                     var waveform = new Waveform({
-                        container: $(waveFormRow).find('td.waveformContainer')[0],
-                        innerColor: "#aaa",
+                        container: $(waveFormRow).find('div.waveformContainer')[0],
+                        innerColor: '#fff',
+                        outerColor: '#310520',
+                        playedColor: '#f50'
                     });
 
                     waveform.dataFromSoundCloudTrack(track);
-                    var streamOptions = waveform.optionsForSyncedStream();
-                    streamOptions.loadedColor = '#000';
-                    streamOptions.playedColor = '#a00';
-                    streamOptions.ontimedcomments = function(comments){
-//                            console.log(comments);
-                    };
+                    var streamOptions = waveform.optionsForSyncedStream({
+                        loadedColor: '#fff',
+                        playedColor: '#f50'
+                    });
 
-                    console.log(streamOptions);
+//                    streamOptions.ontimedcomments = function(comments){
+////                            console.log(comments);
+//                    };
 
                     SC.stream(track.uri, streamOptions, function(stream){
                         if(currentStream){
