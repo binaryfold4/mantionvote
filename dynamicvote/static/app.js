@@ -10,6 +10,10 @@ $(document).ready(function() {
             "url": "/api/tracks/?format=json",
             "dataSrc": ""
         },
+        "language": {
+            search: "_INPUT_",
+            searchPlaceholder: "Type here to search tracks"
+        },
         "fnDrawCallback": function() {
 
 //           var votes = getTableId(votetable);
@@ -294,6 +298,12 @@ $(document).ready(function() {
         }
 
         $(logo).css({top: offset + 'px', transform: rotate, opacity: sinVal});
+
+        $('#tracks').on('mouseover', 'tr', function(){
+            $(this).next().next().addClass('obscured');
+        }).on('mouseout', 'tr', function(){
+            $(this).next().next().removeClass('obscured');
+        });
     });
 
     $('.navlinks .info').bind("click", function()
