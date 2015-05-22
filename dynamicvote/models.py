@@ -34,4 +34,3 @@ class Vote(models.Model):
 
 
 
-

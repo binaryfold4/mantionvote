@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block sidebar %}
+
+        <p>enter your email if you want vote results and updates as we add new features (this is just the beginning) </p>
+        <p>your email is kept private</p>
+
+        <form id="user_form" method="post" action="/profile/" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+
+            <input type="submit" name="submit" value="Change" />
+
+        </form>
+{% endblock %}
+
+{% block main %}
+{% endblock %}

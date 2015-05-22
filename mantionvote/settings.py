@@ -67,28 +67,16 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile'
+LOGIN_URL = '/'
+
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'social.backends.soundcloud.SoundcloudOAuth2'
 ]
 
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.misc.save_status_to_session',
-    'app.pipeline.redirect_to_basic_user_data_form',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
-)
-
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'uid', 'email']
 
 WSGI_APPLICATION = 'mantionvote.wsgi.application'
 

@@ -36,9 +36,9 @@ $(document).ready(function() {
             { "targets": 2, "data": "duration", "render": calc_sc_duration },
             { "targets": 3, "data": "created_at", "render": calc_created_at },
             { "targets": 4, "data": "comment_count", "render": nullify },
-            { "targets": 5, "data": "download_count" },
-            { "targets": 6, "data": "playback_count" },
-            { "targets": 7, "data": "favoritings_count" }
+            { "targets": 5, "data": "download_count", "render": nullify },
+            { "targets": 6, "data": "playback_count", "render": nullify },
+            { "targets": 7, "data": "favoritings_count", "render": nullify }
         ]
     } );
     
@@ -58,9 +58,8 @@ $(document).ready(function() {
     }
 
     function nullify(number) {
-        console.log(number)
-        if (number = 0) {
-            return 5;
+        if (number == 0) {
+            return "";
         } else {
             return number;
         }
