@@ -3,7 +3,7 @@ $(document).ready(function() {
     $.fn.dataTable.ext.errMode = 'throw';
 
     var tracktable = $('#tracks').dataTable( {
-        "aaSorting": [[0,'created_at']],
+        "order": [[ 3, "desc" ]],
         "iDisplayLength": -1,
         "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
         "ajax": {
@@ -34,7 +34,7 @@ $(document).ready(function() {
             { "targets": 0, "data": "sc_id", "visible": false },
             { "targets": 1, "className": "title", "data": "title" },
             { "targets": 2, "data": "duration", "render": calc_sc_duration },
-            { "targets": 3, "data": "created_at", "render": calc_created_at },
+            { "targets": 3, "data": "uploaded_at", "render": calc_created_at },
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
             { "targets": 6, "data": "favoritings_count", "render": nullify },
