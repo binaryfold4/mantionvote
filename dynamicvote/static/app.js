@@ -124,12 +124,12 @@ $(document).ready(function() {
         if(trackId){
             if(currentTrack == trackId){
                 if(currentStream.paused){
-                    $(trackRow).removeClass('playing');
                     currentStream.resume();
+                    $(trackRow).addClass('playing');
                 }
                 else{
-                    $(trackRow).addClass('playing');
                     currentStream.pause();
+                    $(trackRow).removeClass('playing');
                 }
             }
             else{

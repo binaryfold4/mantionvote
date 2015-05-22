@@ -258,6 +258,15 @@ a:active {
   text-decoration: none;
   color: #cc4400;
 }
+.logo {
+  width: 206px;
+  height: 206px;
+  position: fixed;
+  top: 54px;
+  left: 290px;
+  z-index: 2;
+  background: transparent url(assets/aphex-twin-logo.png) no-repeat center center;
+}
 .wrap {
   padding: 160px 60px;
 }
@@ -467,7 +476,7 @@ a:active {
 @media (min-width: 80em) {
   .sidebar {
     width: 300px;
-    position: absolute;
+    position: fixed;
     top: 250px;
     left: 60px;
   }
@@ -492,6 +501,9 @@ a:active {
   .main {
     padding-left: 420px;
   }
+}
+.topText {
+  padding-left: 110px;
 }
 /* Sidebar navigation */
 table.dataTable {
@@ -529,11 +541,11 @@ table.dataTable thead .sorting_desc:after {
   cursor: pointer;
 }
 .table tbody tr td.title {
-  background: transparent url(assets/play.png) no-repeat 24px center;
+  background: transparent url(assets/play-icon.png) no-repeat 24px center;
   padding-left: 70px;
 }
 .table tbody tr.playing td.title {
-  background-image: url(assets/pause.png);
+  background-image: url(assets/pause-icon.png);
 }
 .table thead tr th.vote,
 .table tbody tr td.vote {
@@ -542,10 +554,10 @@ table.dataTable thead .sorting_desc:after {
   padding-right: 0;
 }
 .table tbody tr td.vote {
-  background: transparent url(assets/plus.png) no-repeat center center;
+  background: transparent url(assets/add-icon.png) no-repeat center 20px;
 }
 .table tbody tr.voted td.vote {
-  background-image: url(assets/subtract.png);
+  background-image: url(assets/remove-icon.png);
 }
 .table tbody .trackWidgetRow {
   height: 100px;
@@ -555,8 +567,7 @@ table.dataTable thead .sorting_desc:after {
 .table tbody .trackWidgetRow:hover {
   background-color: transparent;
 }
-.table tbody .trackWidgetRow.open,
-.table tbody .trackWidgetRow.playing {
+.table tbody .trackWidgetRow.open {
   display: table-row;
 }
 .table tbody .trackWidgetRow td {
@@ -577,4 +588,5 @@ table.dataTable thead .sorting_desc:after {
 }
 .table tbody .trackWidgetRow .waveformContainer canvas {
   width: 100% !important;
+  height: 100px;
 }

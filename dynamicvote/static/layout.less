@@ -30,10 +30,7 @@ a
 // Layouts
 //----------------------------------------------------------------------------------------------------------------------
 
-//.logo
-//{   width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.8; background: transparent url(assets/afx-bg.png) no-repeat center 100px;
-//    &.activated { z-index: -1; .transition(z-index 0s ease-out 2s); }
-//}
+.logo { width: 206px; height: 206px; position: fixed; top: 54px; left: 290px; z-index: 2; background: transparent url(assets/aphex-twin-logo.png) no-repeat center center; }
 
 .wrap
 { .clearfix(); padding: 160px 60px;
@@ -114,7 +111,7 @@ a
 
 .sidebar
 {   width: 100%; overflow: hidden; margin: 0;
-    @media (min-width: @xlarge)  { width: 300px; position: absolute; top: 250px; left: 60px; }
+    @media (min-width: @xlarge)  { width: 300px; position: fixed; top: 250px; left: 60px; }
     @media (min-width: @max)     { width: 360px; }
 }
 
@@ -124,6 +121,8 @@ a
     @media (min-width: @max)     { padding-left: 420px; }
 }
 
+
+.topText { padding-left: 110px; }
 
 /* Sidebar navigation */
 //.nav-sidebar {
@@ -168,20 +167,19 @@ table.dataTable thead .sorting_desc:after { top: 20px; }
 .table tbody tr.odd:hover td.title,
 .table tbody tr.even:hover td.title { cursor: pointer; }
 
-.table tbody tr td.title            { background: transparent url(assets/play.png) no-repeat 24px center; padding-left: 70px; }
-.table tbody tr.playing td.title    { background-image: url(assets/pause.png); }
+.table tbody tr td.title            { background: transparent url(assets/play-icon.png) no-repeat 24px center; padding-left: 70px; }
+.table tbody tr.playing td.title    { background-image: url(assets/pause-icon.png); }
 
 .table thead tr th.vote,
 .table tbody tr td.vote         { width: 75px; text-align: center; padding-right: 0; }
-.table tbody tr td.vote         { background: transparent url(assets/plus.png) no-repeat center center; }
-.table tbody tr.voted td.vote   { background-image: url(assets/subtract.png); }
+.table tbody tr td.vote         { background: transparent url(assets/add-icon.png) no-repeat center 20px; }
+.table tbody tr.voted td.vote   { background-image: url(assets/remove-icon.png); }
 
 
 .table tbody .trackWidgetRow
 {   height: 100px; display: none; background: none;
     &:hover  { background-color: transparent; }
-    &.open,
-    &.playing { display: table-row; }
+    &.open   { display: table-row; }
 
     td { position: relative; padding: 0!important; }
 
@@ -189,7 +187,7 @@ table.dataTable thead .sorting_desc:after { top: 20px; }
 
     .waveformContainer
     {   width: 100%; height: 100px; position: absolute; top: 0; right: 0; padding-left: 100px;
-        canvas { width: 100% !important; }
+        canvas { width: 100% !important; height: 100px; }
     }
 }
 
