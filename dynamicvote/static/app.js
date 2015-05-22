@@ -1,15 +1,20 @@
 $(document).ready(function() {
-    
+
+    $.fn.dataTable.ext.errMode = 'throw';
+
     var votetable = $('#votetracks').dataTable( {
         "bPaginate": false,
         "bFilter": false, 
         "ajax": {
-            "url": "", ///rest/votes/?format=json"
+            "url": "/api/vote/?format=json",
             "dataSrc": ""
         },
+        "oLanguage": {
+            "sEmptyTable":     "No tracks selected"
+        },
         "columnDefs": [
-            { "targets": 0, "data": "sc_id", "visible": false },
-            { "targets": 1, "data": "title" }
+            { "targets": 0, "data": "track.sc_id", "visible": false },
+            { "targets": 1, "data": "track.title" }
         ]
     } );   
       
@@ -18,7 +23,7 @@ $(document).ready(function() {
         "iDisplayLength": -1,
         "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
         "ajax": {
-            "url": "/rest/tracks/?format=json",
+            "url": "/api/tracks/?format=json",
             "dataSrc": ""
         },
         "fnDrawCallback": function() {
@@ -66,15 +71,18 @@ $(document).ready(function() {
     }
     
     function getTableId(table) {
-        var votes = [];
+        var votes = {};
+        var i=0;
         var data = table.api().column(0).data().each(function(value, index) {
-            votes.push(value);
+            i++;
+            votes["vote" + i] = value;
         });
         return votes;
     };  
     
     function markSelected(table,votes) {
         for (var i=0; i < votes.length; i++) {
+            alert(votes[i]);
             // iterate through main table, mark matching's id as selected        
         };   
         //console.log(table);
@@ -100,11 +108,11 @@ $(document).ready(function() {
         if ( !$(this).hasClass('selected') ) {
             totalvote = votetable.fnSettings().fnRecordsTotal();
             
-            if (totalvote > 20-1) {
+            if (totalvote > totalVotes-1) {
                 alert(totalVotes + " votes already reached!");
             } else {
                 $(this).addClass('selected'); 
-                votetable.fnAddData( { 'sc_id': trackId, 'title': trackTitle } );
+                votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
                 //votetable.fnAddData( [ trackId, trackTitle ]);
             };
             
@@ -162,8 +170,19 @@ $(document).ready(function() {
     } );    
     
     $('#vote').click( function () {
-        var votes = getTableId(votetable);
-        alert(votes);    // send this to server
+
+        var minVotes = 5;
+        totalvote = votetable.fnSettings().fnRecordsTotal();
+        if (totalvote < minVotes) {
+            alert("At least 5 votes are required");
+        } else {
+            var votes = getTableId(votetable);
+            console.log(votes);
+            // TODO: this should be REST'ful - FIX backend
+            var url = "/vote/?" + jQuery.param(votes);
+            location.href = url;
+        };
+
     } );
         
 } );
