@@ -17,8 +17,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6  { .defaultFont(@font-weigh
 
 p, li, th, td { .defaultFont(@font-size: 1.125em; @margin: 0 0 1.5em); }
 
-td { color: @color_brand_dark; }
-
 .highlight{ color: @color_brand; }
 
 a
@@ -32,13 +30,13 @@ a
 // Layouts
 //----------------------------------------------------------------------------------------------------------------------
 
-.logo
-{   width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.8; background: transparent url(assets/afx-bg.png) no-repeat center 100px;
-    &.activated { z-index: -1; .transition(z-index 0s ease-out 2s); }
-}
+//.logo
+//{   width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.8; background: transparent url(assets/afx-bg.png) no-repeat center 100px;
+//    &.activated { z-index: -1; .transition(z-index 0s ease-out 2s); }
+//}
 
 .wrap
-{ .clearfix(); padding: 160px percentage(100/2484);
+{ .clearfix(); padding: 160px 60px;
     @media (min-width: @small) { padding-top: 120px; }
 }
 
@@ -116,14 +114,14 @@ a
 
 .sidebar
 {   width: 100%; overflow: hidden; margin: 0;
-    @media (min-width: @large)  { width: percentage(600/2484); float: left; margin-top: 130px; margin-right: percentage(100/2484); }
-    @media (min-width: @max) { width: 13%; max-width: 325px; }
+    @media (min-width: @xlarge)  { width: 300px; position: absolute; top: 250px; left: 60px; }
+    @media (min-width: @max)     { width: 360px; }
 }
 
 .main
-{   width: 100%; max-width: 1440px; overflow: hidden; margin: 0;
-    @media (min-width: @large)  { width: percentage(1780/2484); float: left; }
-    @media (min-width: @max)    { width: 65%; }
+{   width: 100%; overflow: hidden; margin: 0;
+    @media (min-width: @xlarge)  { float: left; padding-left: 360px; }
+    @media (min-width: @max)     { padding-left: 420px; }
 }
 
 
@@ -150,24 +148,53 @@ a
 
 table.dataTable { width: 100% !important; margin: 20px 0 !important; } /* !importants to overwrite inline styles and bootstrap */
 
+.table thead tr,
+.table tbody tr     { position: relative; }
+.table tbody tr     { background: transparent url(assets/dots.png) repeat-x left top;  }
 
-.table>thead>tr>th
-{   border: 0;  }
+.table thead tr th  { padding: 20px 30px 18px 0; border: 0;  }
 
-.table>thead>tr>td,
-.table>tbody>tr>td,
-.table>tfoot>tr>td
-{   background-color: #fff; padding: 20px 20px 15px; border: 0; border-bottom: 1px solid @color_brand_dark; }
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after { top: 20px; }
 
 
-.table>tbody>tr.selected td,
-.table>tbody>tr:hover td { background-color: @color_brand !important; color: #fff; }
+.table tbody tr td  { padding: 20px 20px 18px 0; border: 0; }
 
-.trackWidgetRow { display: none; height: 120px; }
-.trackWidgetRow td { padding: 0!important; }
-.trackArt { width: 120px; height: 120px; }
-.waveformContainer { height: 120px; width: 100%; position: absolute; right: 0; padding-left: 120px; }
-.trackWidgetRow.playing { display: table-row; }
+.table tbody tr.selected td,
+.table tbody tr.odd:hover td,
+.table tbody tr.even:hover td   { background-color: @color_brand; }
+
+.table tbody tr.odd:hover td.title,
+.table tbody tr.even:hover td.title { cursor: pointer; }
+
+.table tbody tr td.title            { background: transparent url(assets/play.png) no-repeat 24px center; padding-left: 70px; }
+.table tbody tr.playing td.title    { background-image: url(assets/pause.png); }
+
+.table thead tr th.vote,
+.table tbody tr td.vote         { width: 75px; text-align: center; padding-right: 0; }
+.table tbody tr td.vote         { background: transparent url(assets/plus.png) no-repeat center center; }
+.table tbody tr.voted td.vote   { background-image: url(assets/subtract.png); }
+
+
+.table tbody .trackWidgetRow
+{   height: 100px; display: none; background: none;
+    &:hover  { background-color: transparent; }
+    &.open,
+    &.playing { display: table-row; }
+
+    td { position: relative; padding: 0!important; }
+
+    .trackArt   { width: 100px; height: 100px; }
+
+    .waveformContainer
+    {   width: 100%; height: 100px; position: absolute; top: 0; right: 0; padding-left: 100px;
+        canvas { width: 100% !important; }
+    }
+}
+
+
+
 
 
 

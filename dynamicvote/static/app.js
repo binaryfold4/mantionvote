@@ -38,7 +38,7 @@ $(document).ready(function() {
             api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
                 $(rows).eq( i ).after(
                     '<tr class="trackWidgetRow">'
-                    +'<td colspan="6">'
+                    +'<td colspan="7">'
                     +'<div class="waveformContainer"></div>'
                     +'<div class="trackArt"></div>'
                     +'</td>'
