@@ -103,16 +103,17 @@ $(document).ready(function() {
     var currentStream;
     var currentTrack;
 
-    $('#tracks tbody').on( 'click', 'tr', function () {
+    $('#tracks tbody').on( 'click', 'td.title', function () {
 
-        var trackData = tracktable.fnGetData(this);
+        var trackRow = $(this).closest('tr');
+        var trackData = tracktable.fnGetData(trackRow);
         var trackTitle = trackData.title;
         var trackId = trackData.sc_id;
         var trackWaveform = trackData.waveform_url;
 
-        var waveFormRow = $(this).next('tr');
+        var waveFormRow = $(trackRow).next('tr');
 
-        $('.trackWidgetRow').not(this).removeClass('playing');
+        $('.trackWidgetRow').not(trackRow).removeClass('playing');
         $(waveFormRow).addClass('playing');
 
         if(trackId){
