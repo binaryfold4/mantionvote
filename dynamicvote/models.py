@@ -23,6 +23,9 @@ class Track(models.Model):
 
     def __str__(self):
         return self.title
+    def calc_votes(self):
+        v = Vote.objects.filter(track=self, voteset_current=1).count()
+        return v
 
 class Vote(models.Model):
     track = models.ForeignKey(Track, unique=False, null=False)
