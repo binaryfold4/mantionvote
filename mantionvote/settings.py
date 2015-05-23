@@ -8,7 +8,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -17,7 +16,8 @@ INSTALLED_APPS = (
     'dynamicvote',
     'rest_framework',
     'django_extensions',
-    'social.apps.django_app.default'
+    'social.apps.django_app.default',
+    'django.contrib.admin'
 #   'import_export'
 )
 
@@ -69,9 +69,8 @@ LOGGING = {
 }
 
 LOGIN_REDIRECT_URL = '/profile'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile'
+SOCIAL_AUTH_NEW_USER_REDIRECT = '/profile'
 LOGIN_URL = '/'
-SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_SOUNDCLOUD_KEY = ''
 SOCIAL_AUTH_SOUNDCLOUD_SECRET = ''

@@ -50,7 +50,7 @@ def votetracks(request):
 
         try:
             for voteno in range(1, 21):
-                # ensure vote1-vote5 all exist
+                # TODO: ensure vote1-vote5 all exist
                 voteparam = "vote" + str(voteno)
                 v = Vote()
                 tc = Track.objects.get(sc_id=request.POST[voteparam])

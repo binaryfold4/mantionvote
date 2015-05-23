@@ -8,6 +8,7 @@ DEBUG = False
 ALLOWED_HOSTS = [ 'domain.name.here' ]
 
 # comment this out to use default sqlite database (not in production)
+# will need to "pip install mysqlclient" (not installed by default, see requirements.txt)
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.mysql',

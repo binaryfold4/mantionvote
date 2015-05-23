@@ -277,7 +277,7 @@ $(document).ready(function() {
                     }
                 },
 
-                url : "/myvote/",
+                url : "/vote/tracks/all/",
                 type: "POST",
                 data: votes,
 

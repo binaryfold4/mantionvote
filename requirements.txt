@@ -8,4 +8,8 @@ django-filter
 django-extensions
 drf-extensions
 
+##optional
+#mysqlclient
+#gunicorn
+
 
