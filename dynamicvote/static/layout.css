@@ -449,6 +449,7 @@ a:active {
 }
 .topbar .navlinks li.currentpage a {
   border-color: #fff;
+  font-weight: bold;
 }
 .topbar .navlinks li.currentpage a:hover,
 .topbar .navlinks li.currentpage a:focus {
@@ -477,7 +478,7 @@ a:active {
 @media (min-width: 80em) {
   .sidebar {
     width: 260px;
-    position: fixed;
+    position: absolute;
     top: 250px;
     left: 60px;
   }
