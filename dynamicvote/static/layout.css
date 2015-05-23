@@ -492,6 +492,7 @@ a:active {
   background: transparent none;
   font-size: 1.125em;
   color: #fff;
+  font-weight: bold;
   text-decoration: underline;
   padding: 10px 0;
   border: 0;
