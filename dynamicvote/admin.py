@@ -6,6 +6,7 @@ class TrackAdmin(admin.ModelAdmin):
 
 class VoteAdmin(admin.ModelAdmin):
     list_display = ['track', 'user', 'voteset_current', 'created_at']
+    list_filter = ['voteset_current', 'user']
 
 admin.site.register(Track, TrackAdmin)
 admin.site.register(Vote, VoteAdmin)
