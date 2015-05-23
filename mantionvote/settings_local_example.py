@@ -7,8 +7,8 @@ SOCIAL_AUTH_SOUNDCLOUD_SECRET = ''
 DEBUG = False
 ALLOWED_HOSTS = [ 'domain.name.here' ]
 
-# comment this out to use default sqlite database (not in production)
-# will need to "pip install mysqlclient" (not installed by default, see requirements.txt)
+# if running local development: you can comment this out (will use sqlite)
+# you will need to "pip install mysqlclient" (not installed by default, see requirements.txt)
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.mysql',
@@ -22,3 +22,5 @@ ADMINS = (
 	 ('Ryan Verner', 'ryan.verner@gmail.com'),
 )
 
+# for production only: set below to /static directory you configure nginx to serve from
+STATIC_ROOT=""

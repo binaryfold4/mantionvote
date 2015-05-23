@@ -49,8 +49,8 @@
 
             <p class="user">
                 {% if user.is_anonymous %}
-                    <span class="loggedInAs"><a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}">Not Logged In</a></span>
-                    <a href="{% url 'social:begin' 'soundcloud' %}?next={{ request.path }}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="Login with SoundCloud"></a>
+                    <span class="loggedInAs"><a href="{% url 'social:begin' 'soundcloud' %}">Not Logged In</a></span>
+                    <a href="{% url 'social:begin' 'soundcloud' %}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="Login with SoundCloud"></a>
                 {% else %}
                     <span class="loggedInAs">Logged In as</span> {{ user }}
                     <a href="{% url 'django.contrib.auth.views.logout' %}"><img src="http://connect.soundcloud.com/2/btn-disconnect-m.png" alt="Sign Out"></a>
@@ -103,7 +103,7 @@
         {% block main %}
 
             <div class="infoText open">
-                <p>vote for your fav sc tracks to be remastered/released.  click to select tracks, then "save".  you can come back anytime and change your vote, including on new tracks.</p>
+                <p>vote for your fav sc tracks to be remastered/released.  click + to select tracks, then "save".  you can come back anytime and change your vote, including on new tracks.</p>
 
             </div>
 
