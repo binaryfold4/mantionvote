@@ -6,8 +6,9 @@ urlpatterns = [
     url(r'^$', views.index),
 
     url(r'^about/', views.about, name='about'),
-    url(r'^myvote/', views.myvote, name='myvote'),
-    url(r'^showvotes/all', views.showvotes, name='showvotes'),
+
+    url(r'^vote/tracks/all/', views.votetracks, name='votetracks'),
+
     url(r'^profile/', views.updateprofile, name='profile'),
 
     url(r'^api/vote/', views.VoteView.as_view()),

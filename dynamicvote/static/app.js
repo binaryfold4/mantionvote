@@ -4,8 +4,9 @@ $(document).ready(function() {
 
     var tracktable = $('#tracks').dataTable( {
         "order": [[ 3, "desc" ]],
-        "iDisplayLength": -1,
-        "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+        //"iDisplayLength": -1,
+        //"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+        "bPaginate": false,
         "ajax": {
             "url": "/api/tracks/?format=json",
             "dataSrc": ""

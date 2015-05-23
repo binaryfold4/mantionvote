@@ -8,6 +8,7 @@ from django.template import RequestContext
 from dynamicvote.models import Track, Vote
 from dynamicvote.serializers import TrackSerializer, VoteSerializer
 from rest_framework import generics, permissions
+from rest_framework_extensions.cache.decorators import cache_response
 
 class TrackView(generics.ListAPIView):
     model = Track
@@ -32,7 +33,7 @@ class UserInfoForm(forms.ModelForm):
 
 def index(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('myvote'))
+        return HttpResponseRedirect(reverse('votetracks'))
     else:
         return render(request, 'index-notloggedin.html')
 
@@ -40,7 +41,7 @@ def about(request):
     return render(request, 'about.html')
 
 @login_required
-def myvote(request):
+def votetracks(request):
     if request.POST:
         # move out of views.py
 
@@ -49,6 +50,7 @@ def myvote(request):
 
         try:
             for voteno in range(1, 21):
+                # ensure vote1-vote5 all exist
                 voteparam = "vote" + str(voteno)
                 v = Vote()
                 tc = Track.objects.get(sc_id=request.POST[voteparam])
@@ -61,24 +63,12 @@ def myvote(request):
                 v.voteset_current = 1
                 v.save()
         except:
-            pass # FIX
-
-        # iterate through voteX
-        # ensure vote1-vote5 all exist
-        # ensure each vote is unique
-        # ensure each track ID is actually valid
-        # set all votes of current user to current=0
-        # add in each of these votes with current=1
-        # respond with success message (which should be displayed on frontend)
-        # otherwise respond with error
+            pass #FIX: better handling, return useful error
 
         return JsonResponse("saved", safe=False)
 
     else:
-        return render(request, 'myvote.html')
-
-def showvotes(request):
-    return render(request, 'showvotes.html')
+        return render(request, 'votetracksall.html', dict(page_votetracks=True))
 
 @login_required
 def updateprofile(request):
@@ -89,4 +79,4 @@ def updateprofile(request):
             return HttpResponseRedirect(reverse('myvote'))
     else:
         user_form = UserInfoForm()
-    return render_to_response('profile.html', {'user_form': user_form}, context_instance=RequestContext(request))
+    return render_to_response('profile.html', {'user_form': user_form, 'page_profile': True}, context_instance=RequestContext(request))

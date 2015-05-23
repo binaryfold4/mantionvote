@@ -1,8 +1,13 @@
 {% extends "base.html" %}
-{% block sidebar %}
 
-        <p>enter your email if you want vote results and updates as we add new features (this is just the beginning) </p>
-        <p>your email is kept private</p>
+{% block main %}
+
+        <p>enter your email (optional) to get vote results and updates as new features are added.  your email is kept private</p>
+
+        <p>playlist sharing/voting is imminent.
+            this site + poll will run over many months, to let people properly take in the tracks and change their vote accordingly.</p>
+
+        <p>rdj has indicated that the final results won't be an exact release, but help give him a strong basis to compile something "by the fans".</p>
 
         <form id="user_form" method="post" action="/profile/" enctype="multipart/form-data">
 
@@ -13,7 +18,12 @@
             <input type="submit" name="submit" value="Change" />
 
         </form>
+
+        <br />
+
+        this poll brought to you by <a href="http://www.watmm.com">watmm</a>, <a href="https://twitter.com/xfxf">@xfxf</a> (concept, code) and <a href="https://twitter.com/binaryfold4">@binaryfold4</a> (design).
+
 {% endblock %}
 
-{% block main %}
+{% block sidebar %}
 {% endblock %}

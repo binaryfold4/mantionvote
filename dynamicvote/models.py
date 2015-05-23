@@ -20,6 +20,7 @@ class Track(models.Model):
     waveform_url = models.CharField(max_length=200, null=True)
     created_at = CreationDateTimeField()
     modified_at = ModificationDateTimeField()
+
     def __str__(self):
         return self.title
 

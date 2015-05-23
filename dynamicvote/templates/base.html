@@ -60,19 +60,14 @@
             <ul class="navlinks">
 
                 <li class="first">(*_*)</li>
-                <!--<li><a href="{% url 'about' %}">About</a></li>-->
                 <li class="info open">Info <span class="hideText">-</span><span class="showText">+</span></li>
-
-                <li class="currentpage"><a href="/">All Tracks</a></li>
 
                 <!--<li><a href="/">Playlists</a></li>-->
 
             {% if not user.is_anonymous %}
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="{% url 'myvote' %}" class="currentpage">Your Vote</a></li>
+                <li{% if page_profile %} class="currentpage"{% endif %}><a href="{% url 'profile' %}">Profile</a></li>
+                <li{% if page_votetracks %} class="currentpage"{% endif %}><a href="{% url 'votetracks' %}">All Tracks</a></li>
             {% endif %}
-
-                <!--<li ><a href="{% url 'showvotes' %}">Show Total Votes</a></li>-->
             </ul>
 
         </div>
@@ -85,12 +80,12 @@
         {% block sidebar %}
 
             <p class="slekshun">
-                my slekshun
-                <span class="selected">2 selected</span>
-                <span class="remaining">14 remaining</span>
+                my slekshun <span id="status"></span>
+                <span class="selected">? selected</span>
+                <span class="remaining">?? remaining</span>
             </p>
 
-            <button type="button" id="vote" class="saveBtn">save</button> <span id="status"></span>
+            <button type="button" id="vote" class="saveBtn">save</button>
 
             <table id="votetracks" class="table table-striped">
                 <thead>
@@ -108,9 +103,12 @@
         {% block main %}
 
             <div class="infoText open">
-                <p>click to select top 20 tracks - voting can be changed after you save by visiting this page again.</p>
+                <p>vote for your fav sc tracks to be remastered/released.  click to select tracks, then "save".  you can come back anytime and change your vote.
+                    new shit is imminent</a></p>
+
             </div>
 
+            <br /><br />
 
             <h1>All Tracks</h1>
 
