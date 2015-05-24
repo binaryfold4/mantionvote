@@ -3,6 +3,7 @@ from rest_framework import serializers
 import pprint
 
 class TrackSerializer(serializers.ModelSerializer):
+    votes = serializers.IntegerField(source='calc_votes', read_only=True)
     class Meta:
         model = Track
 

@@ -18,9 +18,8 @@ pip install -r requirements.txt
 
 ####Using:
 
-(If running in production, configure a real DB first in settings.py)
-(Shouldn't be used in production yet anyway)
-(populate settings_local.py - need to expand on this)
+Copy mantionvote/settings_local_example.py to mantionvote/settings_local.py.
+Please populate this with real information (database, secret key, etc).
 
 ```bash
 source env/bin/activate

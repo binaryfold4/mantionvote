@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -45,12 +46,16 @@ def votetracks(request):
     if request.POST:
         # move out of views.py
 
+        fivesecs = datetime.now() - timedelta(seconds=5)
+        if Vote.objects.filter(created_at__gt=fivesecs):
+            return JsonResponse("wait", safe=False)
+
         oldv = Vote.objects.filter(user = request.user)
         oldv.update(voteset_current = 0)  # FIX: lazy, should only be changed after below is successful
 
         try:
             for voteno in range(1, 21):
-                # ensure vote1-vote5 all exist
+                # TODO: ensure vote1-vote5 all exist
                 voteparam = "vote" + str(voteno)
                 v = Vote()
                 tc = Track.objects.get(sc_id=request.POST[voteparam])
@@ -76,7 +81,7 @@ def updateprofile(request):
         user_form = UserInfoForm(request.POST, instance=request.user)
         if user_form.is_valid():
             user_form.save()
-            return HttpResponseRedirect(reverse('myvote'))
+            return HttpResponseRedirect(reverse('votetracks'))
     else:
         user_form = UserInfoForm()
     return render_to_response('profile.html', {'user_form': user_form, 'page_profile': True}, context_instance=RequestContext(request))

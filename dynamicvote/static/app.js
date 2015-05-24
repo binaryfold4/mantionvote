@@ -66,8 +66,8 @@ $(document).ready(function() {
             { "targets": 3, "data": "uploaded_at", "render": { "display": calc_created_at } },
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
-            { "targets": 6, "data": "favoritings_count", "render": nullify },
-            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' },
+            { "targets": 6, "data": "votes", "render": nullify },
+            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
             { "targets": 8, "data": "selected", "orderable": false, defaultContent: true, visible: false }
         ]
     } );
@@ -284,7 +284,7 @@ $(document).ready(function() {
                     }
                 },
 
-                url : "/myvote/",
+                url : "/vote/tracks/all/",
                 type: "POST",
                 data: votes,
 
