@@ -8,7 +8,7 @@
 ## bugs/immediate
  
   * [1] SC accounts with non-alphanumeric unicode characters are causing error: fix
-  * [1] implement sentry / new relic (to measure)
+  * [2] ?? maybe - remove save button, save track selection to server upon change.   on backend, remove old votes, only has current 20. (req logic change)
   * [3] tracks JSON should be cached and only generated every X minutes (measure, improve, repeat)
 
 

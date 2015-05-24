@@ -252,7 +252,7 @@ $(document).ready(function() {
 
         var totalVotes = 20;
 
-        $("#status").text('slekting');
+        $("#status").text('not saved');
 
         if ( !$(trackRow).hasClass('voted') ) {
 
@@ -296,7 +296,7 @@ $(document).ready(function() {
         var row = votetable.api().row(this).data();
         votetable.fnDeleteRow(this);
 
-        $("#status").text('slekting');
+        $("#status").text('not saved');
 
         var trackRow = $('#tracks tr[data-track="' + row.track.sc_id +'"]').find('.vote').trigger('click');
 
