@@ -31,6 +31,9 @@ $(document).ready(function() {
                 $(nRow).removeClass('voted');
             }
         },
+        "oLanguage": {
+            "sEmptyTable":     "Loading tracks..."
+        },
         "infoCallback": function( settings, start, end, max, total, pre ) {
             if(max)
                 $('p.numTracks').html(max + ' tracks');
@@ -49,9 +52,6 @@ $(document).ready(function() {
             $('p.totalTime').html(durationString);
         },
         "fnDrawCallback": function() {
-//           var votes = getTableId(votetable);
-//           markSelected(tracktable,votes);    // send this to server
-
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
 

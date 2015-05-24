@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
@@ -13,10 +14,27 @@
 
     <title>user18081971 - vote (dynamic) on fav sc tracks</title>
 
-    <!-- Info -->
+    <!-- Misc -->
     <meta property="og:title"              content="vote on fav sc tracks for release [user18081971]" />
     <meta property="og:description"        content="vote for your fav sc tracks to be remastered/released.  this will help form a strong basis for user18081971 to compile something 'by the fans'." />
-    <meta property="og:image"              content="http://user18081971.com/static/assets/ogimage.jpg" />
+    <meta property="og:image"              content="http://user18081971.watmm.com/static/assets/ogimage.jpg" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/assets/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/assets/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/assets/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/assets/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/assets/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/assets/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/assets/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/assets/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/assets/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon-16x16.png">
+    <link rel="manifest" href="/static/assets/manifest.json">
+    <meta name="msapplication-TileImage" content="/static/assets/ms-icon-144x144.png">
 
     <!-- Web Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
@@ -127,14 +145,14 @@
                     <thead>
                         <tr>
                             <th class="id none">sc_id</th>
-                            <th class="title all">Title</th>
+                            <th class="all title">Title</th>
                             <th class="not-tablet duration">Time</th>
                             <th class="not-tablet date">Uploaded</th>
                             <th class="not-tablet plays">Plays</th>
                             <th class="not-tablet comments">Comments</th>
                             <th class="not-tablet votes">Votes</th>
-                            <th class="addRemove all">Vote</th>
-                            <th class="vote none">VoteRow</th>
+                            <th class="all addRemove">Vote</th>
+                            <th class="none vote">VoteRow</th>
                         </tr>
                     </thead>
                 </table>
