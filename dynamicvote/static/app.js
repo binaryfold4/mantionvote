@@ -158,6 +158,7 @@ $(document).ready(function() {
         var trackData = tracktable.fnGetData(trackRow);
         var trackId = trackData.sc_id;
         var trackWaveform = trackData.waveform_url;
+        var trackLength = trackData.duration;
         var trackArt = trackData.artwork_url;
 
         var waveFormRow = $(trackRow).next('tr');
@@ -168,9 +169,15 @@ $(document).ready(function() {
 
         if(trackId){
             if(currentTrack == trackId){
+                console.log(currentStream.position);
+
                 if(currentStream.paused){
                     currentStream.resume();
                     $(trackRow).addClass('playing');
+                }
+                else if(currentStream.ended){
+                    currentStream.setPosition(0);
+                    currentStream.play();
                 }
                 else{
                     currentStream.pause();
@@ -197,28 +204,35 @@ $(document).ready(function() {
                     defaultColor: 'transparent'
                 });
 
-                $(waveform.container).on('click', function(e){
-                   //console.log(e);
-                });
-
                 waveform.dataFromSoundCloudTrack(track);
                 var streamOptions = waveform.optionsForSyncedStream({
                     loadedColor: '#fff',
                     playedColor: '#f50',
                     innerColor: 'transparent',
-                    defaultColor: 'transparent',
-                    //onfinish: function() {
-                    //    $(trackRow).removeClass('playing');
-                    //}
+                    defaultColor: 'transparent'
                 });
 
                 SC.stream(track.uri, streamOptions, function(stream){
                     if(currentStream){
                         currentStream.destruct();
                     }
-                    stream.play();
+                    stream.play({
+                            onfinish: function (e) {
+                                $(trackRow).removeClass('playing');
+                                this.setPosition(0);
+                                this.stop();
+                            }
+                        }
+                    );
                     currentStream = stream;
                     currentTrack = trackId;
+                });
+
+                $(waveform.container).on('click', function(e){
+                    if(currentStream){
+                        var percent = e.offsetX / e.target.offsetWidth;
+                        currentStream.setPosition(percent * trackLength);
+                    }
                 });
 
                 $(trackRow).addClass('playing');
