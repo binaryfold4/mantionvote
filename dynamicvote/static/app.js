@@ -15,6 +15,13 @@ $(document).ready(function() {
             search: "_INPUT_",
             searchPlaceholder: "Type here to search tracks"
         },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+
+            //console.log(nRow);
+            console.log(aData);
+
+            //$(nRow).addClass('voted');
+        },
         "infoCallback": function( settings, start, end, max, total, pre ) {
             if(max)
                 $('p.numTracks').html(max + ' tracks');
@@ -60,7 +67,8 @@ $(document).ready(function() {
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
             { "targets": 6, "data": "favoritings_count", "render": nullify },
-            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
+            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' },
+            { "targets": 8, "data": "selected", "orderable": false, defaultContent: true, visible: false }
         ]
     } );
 
@@ -73,6 +81,7 @@ $(document).ready(function() {
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 //          console.log(aData);
+            tracktable.api().rows(aData).data({ 8 : true }).draw();
         },
         "oLanguage": {
             "sEmptyTable":     "No tracks selected"
@@ -139,7 +148,6 @@ $(document).ready(function() {
 
         var trackRow = $(this).closest('tr');
         var trackData = tracktable.fnGetData(trackRow);
-        var trackTitle = trackData.title;
         var trackId = trackData.sc_id;
         var trackWaveform = trackData.waveform_url;
         var trackArt = trackData.artwork_url;
@@ -229,7 +237,6 @@ $(document).ready(function() {
                 votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
             };
         }
-
     } );
 
     $('#votetracks tbody').on( 'click', 'tr', function () {  
