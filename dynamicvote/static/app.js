@@ -230,7 +230,9 @@ $(document).ready(function() {
 
                 $(waveform.container).on('click', function(e){
                     if(currentStream){
-                        var percent = e.offsetX / e.target.offsetWidth;
+                        var xPos = e.pageX;
+                        var startX = $(e.target).offset().left;
+                        var percent = (xPos - startX) / e.target.offsetWidth;
                         currentStream.setPosition(percent * trackLength);
                     }
                 });
