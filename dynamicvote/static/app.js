@@ -271,7 +271,7 @@ $(document).ready(function() {
 
             votetable.api().rows().every(function(){
                 if(this.data().track.sc_id == trackId){
-                    this.node().remove();
+                    votetable.fnDeleteRow(this.node());
                 }
             });
         }
