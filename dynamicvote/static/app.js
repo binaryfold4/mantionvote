@@ -2,6 +2,11 @@ $(document).ready(function() {
 
     $.fn.dataTable.ext.errMode = 'throw';
 
+    var votes = [];
+    var savedVotes = [];
+
+    var votesSynced = false;
+
     var tracktable = $('#tracks').dataTable( {
         "order": [[ 3, "desc" ]],
         //"iDisplayLength": -1,
@@ -16,11 +21,12 @@ $(document).ready(function() {
             searchPlaceholder: "Type here to search tracks"
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-
-            //console.log(nRow);
-            console.log(aData);
-
-            //$(nRow).addClass('voted');
+            if(votes.indexOf(aData.sc_id) > -1){
+                $(nRow).addClass('voted');
+            }
+            else{
+                $(nRow).removeClass('voted');
+            }
         },
         "infoCallback": function( settings, start, end, max, total, pre ) {
             if(max)
@@ -40,24 +46,20 @@ $(document).ready(function() {
             $('p.totalTime').html(durationString);
         },
         "fnDrawCallback": function() {
-
 //           var votes = getTableId(votetable);
 //           markSelected(tracktable,votes);    // send this to server
 
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
 
-            api.column(0, {page:'current'} ).data().each( function ( sc_id, i ) {
-                $(rows).eq( i ).after(
-                    '<tr class="trackWidgetRow">'
-                    +'<td colspan="7">'
-                    +'<div class="waveformContainer"></div>'
-                    +'<div class="trackArt"></div>'
-                    +'</td>'
-                    +'</tr>'
-                );
-            });
+            $(rows).after(
+                '<tr class="trackWidgetRow">'
+                +'<td colspan="7">'
+                +'<div class="waveformContainer"></div>'
+                +'<div class="trackArt"></div>'
+                +'</td>'
+                +'</tr>'
+            );
         },
         "columnDefs": [
             { "targets": 0, "data": "sc_id", "visible": false },
@@ -67,7 +69,7 @@ $(document).ready(function() {
             { "targets": 4, "data": "playback_count", "render": nullify },
             { "targets": 5, "data": "comment_count", "render": nullify },
             { "targets": 6, "data": "votes", "render": nullify },
-            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' }
+            { "targets": 7, "className": "vote", "data": null, "orderable": false, defaultContent: '' },
             { "targets": 8, "data": "selected", "orderable": false, defaultContent: true, visible: false }
         ]
     } );
@@ -80,18 +82,23 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-//          console.log(aData);
-            tracktable.api().rows(aData).data({ 8 : true }).draw();
+            //$(nRow).data('track', aData.track.sc_id);
         },
         "oLanguage": {
             "sEmptyTable":     "No tracks selected"
         },
         "infoCallback": function( settings, start, end, max, total, pre ) {
-            if(max)
-                $('p.numTracks').html(max + ' tracks');
-
             $('.slekshun .selected').html(max + ' selected');
             $('.slekshun .remaining').html((20-max) + ' remaining');
+
+            votes = [];
+            var data = this.api().column(0).data().each(
+                function(value, index) {
+                    votes.push(value);
+                }
+            );
+
+            tracktable.api().rows().draw();
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
@@ -136,9 +143,7 @@ $(document).ready(function() {
         for (var i=0; i < votes.length; i++) {
             alert(votes[i]);
             // iterate through main table, mark matching's id as selected        
-        };   
-        //console.log(table);
-        //console.log(votes);
+        };
     };
 
     var currentStream;
@@ -189,17 +194,20 @@ $(document).ready(function() {
                     defaultColor: 'transparent'
                 });
 
+                $(waveform.container).on('click', function(e){
+                   //console.log(e);
+                });
+
                 waveform.dataFromSoundCloudTrack(track);
                 var streamOptions = waveform.optionsForSyncedStream({
                     loadedColor: '#fff',
                     playedColor: '#f50',
                     innerColor: 'transparent',
-                    defaultColor: 'transparent'
+                    defaultColor: 'transparent',
+                    //onfinish: function() {
+                    //    $(trackRow).removeClass('playing');
+                    //}
                 });
-
-//                    streamOptions.ontimedcomments = function(comments){
-////                            console.log(comments);
-//                    };
 
                 SC.stream(track.uri, streamOptions, function(stream){
                     if(currentStream){
@@ -225,10 +233,15 @@ $(document).ready(function() {
         var trackId = trackData.sc_id;
         var trackTitle = trackData.title;
 
-        var totalVotes = 20
+        var totalVotes = 20;
+
+        $("#status").text('slekting');
 
         if ( !$(trackRow).hasClass('voted') ) {
             totalvote = votetable.fnSettings().fnRecordsTotal();
+
+            votes.push(trackId);
+            votetable.api().rows('[data-track='+trackId+']').draw();
 
             if (totalvote > totalVotes-1) {
                 alert(totalVotes + " votes already reached!");
@@ -237,11 +250,33 @@ $(document).ready(function() {
                 votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
             };
         }
+        else{
+            $(trackRow).removeClass('voted');
+            var newArray = [];
+            for(var i=0; i<votes.length; i++){
+                if(votes[i]!=trackId)
+                    newArray.push(votes[i]);
+            }
+
+            votes = newArray;
+
+            var data = votetable.api().rows().data();
+            for(var i=0; i<data.length; i++){
+                if(data[i].track.sc_id==trackId){
+                    votetable.api().rows(i).remove().draw();
+                    break;
+                }
+            }
+
+            //votetable.api().rows('[data-track='+trackId+']').draw();
+        }
     } );
 
     $('#votetracks tbody').on( 'click', 'tr', function () {  
           votetable.fnDeleteRow(this);
-          // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
+            $("#status").text('slekting');
+
+        // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
 
     function getCookie(name) {
@@ -269,7 +304,6 @@ $(document).ready(function() {
             alert("At least " + minVotes + " votes are required");
         } else {
             var votes = getTableId(votetable);
-            console.log(votes);
 
             function csrfSafeMethod(method) {
                 // these HTTP methods do not require CSRF protection
@@ -289,8 +323,8 @@ $(document).ready(function() {
                 data: votes,
 
                 success: function(json) {
-                    console.log("success");
                     $("#status").text(json);
+                    savedVotes = votes;
                 },
 
                 error: function(xhr,errmsg,err) {
@@ -347,7 +381,6 @@ $(document).ready(function() {
 
     $('.navlinks .info').bind("click", function()
     {
-        console.log('clicked');
         $(this).toggleClass('open');
         $('.infoText').toggleClass('open');
     });
