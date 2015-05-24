@@ -30,6 +30,8 @@ $(document).ready(function() {
             else{
                 $(nRow).removeClass('voted');
             }
+
+            $(nRow).attr('data-track', aData.sc_id);
         },
         "oLanguage": {
             "sEmptyTable":     "Loading tracks..."
@@ -95,13 +97,11 @@ $(document).ready(function() {
             $('.slekshun .remaining').html((20-max) + ' remaining');
 
             votes = [];
-            var data = this.api().column(0).data().each(
+            this.api().column(0).data().each(
                 function(value, index) {
                     votes.push(value);
                 }
             );
-
-            tracktable.api().rows().draw();
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
@@ -244,7 +244,8 @@ $(document).ready(function() {
 
             if (!votetable.length) {
                 alert("you're not logged in. please login to vote");
-            } else {
+            }
+            else{
                 totalvote = votetable.fnSettings().fnRecordsTotal();
 
                 votes.push(trackId);
@@ -268,23 +269,23 @@ $(document).ready(function() {
 
             votes = newArray;
 
-            var data = votetable.api().rows().data();
-            for(var i=0; i<data.length; i++){
-                if(data[i].track.sc_id==trackId){
-                    votetable.api().rows(i).remove().draw();
-                    break;
+            votetable.api().rows().every(function(){
+                if(this.data().track.sc_id == trackId){
+                    votetable.fnDeleteRow(this.node());
                 }
-            }
-
-            //votetable.api().rows('[data-track='+trackId+']').draw();
+            });
         }
     } );
 
-    $('#votetracks tbody').on( 'click', 'tr', function () {  
-          votetable.fnDeleteRow(this);
-            $("#status").text('slekting');
+    $('#votetracks tbody').on( 'click', 'tr', function () {
 
-        // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
+        var row = votetable.api().row(this).data();
+        votetable.fnDeleteRow(this);
+
+        $("#status").text('slekting');
+
+        var trackRow = $('#tracks tr[data-track="' + row.track.sc_id +'"]').find('.vote').trigger('click');
+
     } );    
 
     function getCookie(name) {
