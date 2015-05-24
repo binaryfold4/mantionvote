@@ -269,15 +269,11 @@ $(document).ready(function() {
 
             votes = newArray;
 
-            var data = votetable.api().rows().data();
-            for(var i=0; i<data.length; i++){
-                if(data[i].track.sc_id==trackId){
-                    votetable.api().rows(i).remove().draw();
-                    break;
+            votetable.api().rows().every(function(){
+                if(this.data().track.sc_id == trackId){
+                    this.node().remove();
                 }
-            }
-
-            //votetable.api().rows('[data-track='+trackId+']').draw();
+            });
         }
     } );
 
