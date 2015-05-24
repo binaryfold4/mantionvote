@@ -238,16 +238,21 @@ $(document).ready(function() {
         $("#status").text('slekting');
 
         if ( !$(trackRow).hasClass('voted') ) {
-            totalvote = votetable.fnSettings().fnRecordsTotal();
 
-            votes.push(trackId);
-            votetable.api().rows('[data-track='+trackId+']').draw();
-
-            if (totalvote > totalVotes-1) {
-                alert(totalVotes + " votes already reached!");
+            if (!votetable.length) {
+                alert("you're not logged in. please login to vote");
             } else {
-                $(trackRow).addClass('voted');
-                votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
+                totalvote = votetable.fnSettings().fnRecordsTotal();
+
+                votes.push(trackId);
+                votetable.api().rows('[data-track='+trackId+']').draw();
+
+                if (totalvote > totalVotes-1) {
+                    alert(totalVotes + " votes already reached!");
+                } else {
+                    $(trackRow).addClass('voted');
+                    votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
+                };
             };
         }
         else{
@@ -312,28 +317,27 @@ $(document).ready(function() {
 
             $.ajax({
 
-                beforeSend: function(xhr, settings) {
+                beforeSend: function (xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
                 },
 
-                url : "/vote/tracks/all/",
+                url: "/vote/tracks/all/",
                 type: "POST",
                 data: votes,
 
-                success: function(json) {
+                success: function (json) {
                     $("#status").text(json);
                     savedVotes = votes;
                 },
 
-                error: function(xhr,errmsg,err) {
+                error: function (xhr, errmsg, err) {
                     console.log("failure");
                     console.log(xhr.status + ": " + xhr.responseText);
                     $("#status").text(err);
                 }
             })
-
 
         };
 

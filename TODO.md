@@ -21,6 +21,8 @@
   * responsiveness improved on mobile devices (esp sidebar)
   * when removing tracks, deselect from main track listing
   * improved styling on secondary pages (profile, etc)
+  * ensure still works (degrades) with JS turned off
+  * improve accessibility
 
 ## playlists
 
