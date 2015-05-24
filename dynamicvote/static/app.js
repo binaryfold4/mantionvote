@@ -16,6 +16,9 @@ $(document).ready(function() {
             "url": "/api/tracks/?format=json",
             "dataSrc": ""
         },
+        responsive: {
+            details: false
+        },
         "language": {
             search: "_INPUT_",
             searchPlaceholder: "Type here to search tracks"
@@ -84,11 +87,6 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-
-            //$(nRow).attr('data-track', aData.sc_id);
-
-            //console.log(nRow);
-
             //$(nRow).data('track', aData.track.sc_id);
         },
         "oLanguage": {
@@ -243,16 +241,22 @@ $(document).ready(function() {
         $("#status").text('slekting');
 
         if ( !$(trackRow).hasClass('voted') ) {
-            totalvote = votetable.fnSettings().fnRecordsTotal();
 
-            votes.push(trackId);
-            //votetable.api().rows('[data-track='+trackId+']').draw();
+            if (!votetable.length) {
+                alert("you're not logged in. please login to vote");
+            }
+            else{
+                totalvote = votetable.fnSettings().fnRecordsTotal();
 
-            if (totalvote > totalVotes-1) {
-                alert(totalVotes + " votes already reached!");
-            } else {
-                $(trackRow).addClass('voted');
-                votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
+                votes.push(trackId);
+                votetable.api().rows('[data-track='+trackId+']').draw();
+
+                if (totalvote > totalVotes-1) {
+                    alert(totalVotes + " votes already reached!");
+                } else {
+                    $(trackRow).addClass('voted');
+                    votetable.fnAddData( { track: { 'sc_id': trackId, 'title': trackTitle } } );
+                };
             };
         }
         else{
@@ -280,16 +284,12 @@ $(document).ready(function() {
     $('#votetracks tbody').on( 'click', 'tr', function () {
 
         var row = votetable.api().row(this).data();
-
-        console.log(row);
-
         votetable.fnDeleteRow(this);
 
         $("#status").text('slekting');
 
         var trackRow = $('#tracks tr[data-track="' + row.track.sc_id +'"]').find('.vote').trigger('click');
 
-        // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
 
     function getCookie(name) {
@@ -325,28 +325,27 @@ $(document).ready(function() {
 
             $.ajax({
 
-                beforeSend: function(xhr, settings) {
+                beforeSend: function (xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
                 },
 
-                url : "/vote/tracks/all/",
+                url: "/vote/tracks/all/",
                 type: "POST",
                 data: votes,
 
-                success: function(json) {
+                success: function (json) {
                     $("#status").text(json);
                     savedVotes = votes;
                 },
 
-                error: function(xhr,errmsg,err) {
+                error: function (xhr, errmsg, err) {
                     console.log("failure");
                     console.log(xhr.status + ": " + xhr.responseText);
                     $("#status").text(err);
                 }
             })
-
 
         };
 

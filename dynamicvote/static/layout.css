@@ -290,7 +290,7 @@ a:active {
   }
 }
 .wrap {
-  padding: 260px 60px 100px;
+  padding: 260px 15px 100px;
 }
 .wrap:before,
 .wrap:after {
@@ -303,6 +303,11 @@ a:active {
 .ie6 .wrap,
 .ie7 .wrap {
   zoom: 1;
+}
+@media (min-width: 48em) {
+  .wrap {
+    padding: 260px 60px 100px;
+  }
 }
 .topbar {
   width: 100%;

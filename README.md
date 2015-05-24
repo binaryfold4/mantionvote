@@ -2,6 +2,8 @@
 Ryan Verner, 2014 <ryan.verner@gmail.com>
 
 *WIP: THAR BE DRAGONS*
+This is still an incredibly early version made with priority on rapid launch.
+The intention for this is for it to work on any sc user, but much of it is hardcoded against user18081971.
 
 ####Requires:
 
@@ -29,3 +31,4 @@ python manage.py scrape
 python manage.py runserver
 ```
 
+TODO: Add instructions regarding oauth2 with soundcloud, URL's, how to test local user, etc.
