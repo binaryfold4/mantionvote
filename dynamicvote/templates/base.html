@@ -48,17 +48,17 @@
 
     <nav class="topbar" role="navigation">
 
-        <p class="sitename"><a href="/">AFX <span>User18081971</span></a></p>
+        <p class="sitename"><a href="/">afx <span>user18081971</span></a></p>
 
         <div class="topbarmain">
 
             <p class="user">
                 {% if user.is_anonymous %}
-                    <span class="loggedInAs"><a href="{% url 'social:begin' 'soundcloud' %}">Not Logged In</a></span>
-                    <a href="{% url 'social:begin' 'soundcloud' %}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="Login with SoundCloud"></a>
+                    <span class="loggedInAs"><a href="{% url 'social:begin' 'soundcloud' %}">not logged in</a></span>
+                    <a href="{% url 'social:begin' 'soundcloud' %}"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png" alt="login with SoundCloud"></a>
                 {% else %}
-                    <span class="loggedInAs">Logged In as</span> {{ user }}
-                    <a href="{% url 'django.contrib.auth.views.logout' %}"><img src="http://connect.soundcloud.com/2/btn-disconnect-m.png" alt="Sign Out"></a>
+                    <span class="loggedInAs">logged in as</span> {{ user }}
+                    <a href="{% url 'django.contrib.auth.views.logout' %}"><img src="http://connect.soundcloud.com/2/btn-disconnect-m.png" alt="sign out"></a>
                 {% endif %}
             </p>
 
@@ -70,9 +70,10 @@
                 <!--<li><a href="/">Playlists</a></li>-->
 
             {% if not user.is_anonymous %}
-                <li{% if page_profile %} class="currentpage"{% endif %}><a href="{% url 'profile' %}">Profile</a></li>
-                <li{% if page_votetracks %} class="currentpage"{% endif %}><a href="{% url 'votetracks' %}">All Tracks</a></li>
+                <li{% if page_profile %} class="currentpage"{% endif %}><a href="{% url 'profile' %}">profile</a></li>
+                <li{% if page_votetracks %} class="currentpage"{% endif %}><a href="{% url 'votetracks' %}">all tracks</a></li>
             {% endif %}
+
             </ul>
 
         </div>
@@ -114,7 +115,7 @@
 
             <br /><br />
 
-            <h1>All Tracks</h1>
+            <h1>all tracks</h1>
 
             <p class="numTracks"></p>
             <p class="totalTime"></p>
