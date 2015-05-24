@@ -42,12 +42,14 @@
 ## frontend features (suggestions, not approved)
   
   * [2] improved styling on secondary pages (profile, etc)
-
+  * [2] date uploaded col seems to be wrapping and spacing seems a little tight
+  * [2] Play & pause icons need aligning as they appear to jump when clicked. 
+  
   * [W] make harder to remove tracks from list, by only pushing subtract
-  * [W] (related to above) make behaviour between lists consistent; either pushing anywhere on main track except play button adds it, or do above
+  * [W] related to above - make behaviour between lists consistent; either pushing anywhere on main track except play button adds it, or do above
   * [W] play button on voted tracks - perhaps play all of these in a loop
   
-  * [W] ability to seek soundcloud tracks   
+  * [W] ability to seek/skip through soundcloud tracks   
   * [W] replace alert() with nice modal
   * [W] increment votes in main table when hitting 'save'
   * [W] ensure still works (degrades) with JS turned off
@@ -64,6 +66,11 @@
 ## vote reporting
   
   * [W] implement more interesting reports on vote/votesets
+  
+  
+## misc
+  
+  * [W] genericify this app; lots of things are hardcoded into the templates/JS
   
 
   
