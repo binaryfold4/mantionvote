@@ -16,6 +16,9 @@ $(document).ready(function() {
             "url": "/api/tracks/?format=json",
             "dataSrc": ""
         },
+        responsive: {
+            details: false
+        },
         "language": {
             search: "_INPUT_",
             searchPlaceholder: "Type here to search tracks"

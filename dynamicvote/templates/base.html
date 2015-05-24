@@ -22,13 +22,15 @@
     <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css">
     <link rel="stylesheet" href="/static/layout.css">
 
     <!-- Scripts -->
-    <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" language="javascript" src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js"></script>
     <!--<script type="text/javascript" language="javascript" src="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>-->
 
     <script type="text/javascript" language="javascript" src="/static/assets/moment.min.js"></script>
@@ -121,17 +123,18 @@
             <p class="totalTime"></p>
 
             <div class="table-responsive">
-                <table class="table" id="tracks">
+                <table class="table responsive" id="tracks">
                     <thead>
                         <tr>
-                            <th class="id">sc_id</th>
-                            <th class="title">Title</th>
-                            <th class="duration">Time</th>
-                            <th class="date">Uploaded</th>
-                            <th class="plays">Plays</th>
-                            <th class="comments">Comments</th>
-                            <th class="votes">Votes</th>
-                            <th class="addRemove">Vote</th>
+                            <th class="id none">sc_id</th>
+                            <th class="title all">Title</th>
+                            <th class="not-tablet duration">Time</th>
+                            <th class="not-tablet date">Uploaded</th>
+                            <th class="not-tablet plays">Plays</th>
+                            <th class="not-tablet comments">Comments</th>
+                            <th class="not-tablet votes">Votes</th>
+                            <th class="addRemove all">Vote</th>
+                            <th class="vote none">VoteRow</th>
                         </tr>
                     </thead>
                 </table>

@@ -1,6 +1,8 @@
 ## TODO
 
 ## bugs/immediate
+ 
+  * can't vote at all on mobile (vote button hidden)
 
   * implement sentry
   * tracks JSON should be cached and only generated every X minutes
@@ -16,13 +18,17 @@
   * ensure exits once all tracks processed
   * config + reports be integrated into Django admin 
    
-## frontend code
-   
+## frontend
+  
+  * optimise Datatables responsive stuff
   * responsiveness improved on mobile devices (esp sidebar)
+  * replace alert() with nice modal
+  * increment votes in main table when hitting 'save'
   * when removing tracks, deselect from main track listing
   * improved styling on secondary pages (profile, etc)
   * ensure still works (degrades) with JS turned off
   * improve accessibility
+  * ensure design CSS is Bootstrap-ified (need templates for other pages)
 
 ## playlists
 
