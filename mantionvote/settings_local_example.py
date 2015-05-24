@@ -22,5 +22,6 @@ ADMINS = (
 	 ('Ryan Verner', 'ryan.verner@gmail.com'),
 )
 
-# for production only: set below to abslute file system /static path you configure nginx to serve /static from
+# for production only: set below to absolute file system
+#   path you configure nginx to serve /static from
 STATIC_ROOT=""
