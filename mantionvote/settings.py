@@ -83,6 +83,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'uid', 'email']
+SOCIAL_AUTH_UUID_LENGTH = 8
+SOCIAL_AUTH_CLEAN_USERNAMES = True
+
+
 
 WSGI_APPLICATION = 'mantionvote.wsgi.application'
 

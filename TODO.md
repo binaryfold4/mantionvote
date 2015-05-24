@@ -7,7 +7,7 @@
 
 ## bugs/immediate
  
-  * [1] SC accounts with non-alphanumberic unicode characters are causing error: fix
+  * [1] SC accounts with non-alphanumeric unicode characters are causing error: fix
   * [1] implement sentry / new relic (to measure)
   * [3] tracks JSON should be cached and only generated every X minutes (measure, improve, repeat)
 
