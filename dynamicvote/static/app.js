@@ -27,6 +27,8 @@ $(document).ready(function() {
             else{
                 $(nRow).removeClass('voted');
             }
+
+            $(nRow).attr('data-track', aData.sc_id);
         },
         "infoCallback": function( settings, start, end, max, total, pre ) {
             if(max)
@@ -82,6 +84,11 @@ $(document).ready(function() {
             "dataSrc": ""
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+
+            //$(nRow).attr('data-track', aData.sc_id);
+
+            //console.log(nRow);
+
             //$(nRow).data('track', aData.track.sc_id);
         },
         "oLanguage": {
@@ -92,13 +99,11 @@ $(document).ready(function() {
             $('.slekshun .remaining').html((20-max) + ' remaining');
 
             votes = [];
-            var data = this.api().column(0).data().each(
+            this.api().column(0).data().each(
                 function(value, index) {
                     votes.push(value);
                 }
             );
-
-            tracktable.api().rows().draw();
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
@@ -241,7 +246,7 @@ $(document).ready(function() {
             totalvote = votetable.fnSettings().fnRecordsTotal();
 
             votes.push(trackId);
-            votetable.api().rows('[data-track='+trackId+']').draw();
+            //votetable.api().rows('[data-track='+trackId+']').draw();
 
             if (totalvote > totalVotes-1) {
                 alert(totalVotes + " votes already reached!");
@@ -272,9 +277,17 @@ $(document).ready(function() {
         }
     } );
 
-    $('#votetracks tbody').on( 'click', 'tr', function () {  
-          votetable.fnDeleteRow(this);
-            $("#status").text('slekting');
+    $('#votetracks tbody').on( 'click', 'tr', function () {
+
+        var row = votetable.api().row(this).data();
+
+        console.log(row);
+
+        votetable.fnDeleteRow(this);
+
+        $("#status").text('slekting');
+
+        var trackRow = $('#tracks tr[data-track="' + row.track.sc_id +'"]').find('.vote').trigger('click');
 
         // MATCHING SC_ID IN MAIN TABLE  -Class('selected');
     } );    
