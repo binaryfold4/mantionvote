@@ -46,9 +46,9 @@ def votetracks(request):
     if request.POST:
         # move out of views.py
 
-        fivesecs = datetime.now() - timedelta(seconds=5)
-        if Vote.objects.filter(created_at__gt=fivesecs):
-            return JsonResponse("wait", safe=False)
+        #fivesecs = datetime.now() - timedelta(seconds=5)
+        #if Vote.objects.filter(created_at__gt=fivesecs):
+        #    return JsonResponse("wait", safe=False)
 
         oldv = Vote.objects.filter(user = request.user)
         oldv.update(voteset_current = 0)  # FIX: lazy, should only be changed after below is successful
