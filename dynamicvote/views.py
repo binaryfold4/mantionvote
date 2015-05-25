@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -6,10 +6,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.utils import timezone
 from dynamicvote.models import Track, Vote
 from dynamicvote.serializers import TrackSerializer, VoteSerializer
 from rest_framework import generics, permissions
 from rest_framework_extensions.cache.decorators import cache_response
+
 
 class TrackView(generics.ListAPIView):
     model = Track
@@ -46,12 +48,12 @@ def votetracks(request):
     if request.POST:
         # move out of views.py
 
-        fivesecs = datetime.now() - timedelta(seconds=5)
-        if Vote.objects.filter(created_at__gt=fivesecs):
+        threesecs = timezone.now() - timedelta(seconds=3)
+        if Vote.objects.filter(created_at__gt=threesecs, user=request.user):
             return JsonResponse("wait", safe=False)
 
-        oldv = Vote.objects.filter(user = request.user)
-        oldv.update(voteset_current = 0)  # FIX: lazy, should only be changed after below is successful
+        oldv = Vote.objects.filter(user=request.user)
+        oldv.update(voteset_current=0)  # FIX: lazy, should only be changed after below is successful
 
         try:
             for voteno in range(1, 21):
@@ -83,5 +85,5 @@ def updateprofile(request):
             user_form.save()
             return HttpResponseRedirect(reverse('votetracks'))
     else:
-        user_form = UserInfoForm()
+        user_form = UserInfoForm(instance=request.user)
     return render_to_response('profile.html', {'user_form': user_form, 'page_profile': True}, context_instance=RequestContext(request))
