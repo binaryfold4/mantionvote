@@ -19,10 +19,6 @@ $(document).ready(function() {
         responsive: {
             details: false
         },
-        "language": {
-            search: "_INPUT_",
-            searchPlaceholder: "Type here to search tracks"
-        },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             if(votes.indexOf(aData.sc_id) > -1){
                 $(nRow).addClass('voted');
@@ -34,7 +30,9 @@ $(document).ready(function() {
             $(nRow).attr('data-track', aData.sc_id);
         },
         "oLanguage": {
-            "sEmptyTable":     "Loading tracks..."
+            "sEmptyTable": "Loading tracks...",
+            sSearch: "_INPUT_",
+            sSearchPlaceholder: "Type here to search tracks"
         },
         "infoCallback": function( settings, start, end, max, total, pre ) {
             if(max)
@@ -105,7 +103,8 @@ $(document).ready(function() {
         },
         "columnDefs": [
             { "targets": 0, "data": "track.sc_id", "visible": false },
-            { "targets": 1, "data": "track.title", "orderable": false }
+            { "targets": 1, "data": "track.title", "orderable": false },
+            { "targets": 2, "className": "remove", "data": null, "orderable": false, defaultContent: '' }
         ]
     } );
 
@@ -293,9 +292,9 @@ $(document).ready(function() {
         }
     } );
 
-    $('#votetracks tbody').on( 'click', 'tr', function () {
+    $('#votetracks tbody').on( 'click', 'td.remove', function () {
 
-        var row = votetable.api().row(this).data();
+        var row = votetable.api().row($(this).closest('tr')).data();
         votetable.fnDeleteRow(this);
 
         $("#status").text('not saved');
@@ -371,19 +370,20 @@ $(document).ready(function() {
 
     $(window).scroll(function(){
         var scrollTop = $(this).scrollTop();
-        var sinVal = Math.abs(Math.sin(scrollTop+90/3));
+        var sinVal = Math.max(0, Math.sin((scrollTop+90)/3));
 
         var boundsX = $(this).width();
         var boundsY = $(this).height();
 
         var offset = 54 + (scrollTop / 2);
         var rotation = scrollTop/5;
-        var rotate, top, left;
+        var rotate, top, left, opacity;
         if(scrollTop<50){
             rotate = 'rotate3d(0,0,0,0)';
             left =  logoLeft+'px';
             top = logoTop+'px';
-            $(logo).css({ left: left, top: top});
+            opacity = 1;
+            $(logo).css({ left: left, top: top, opacity: opacity});
         }
         else{
             rotate = 'rotateZ('+ rotation + 'deg)';
@@ -392,9 +392,10 @@ $(document).ready(function() {
             if(sinVal<0.2){
                 $(logo).css({ left: left, top: top});
             }
+            opacity = sinVal;
         }
 
-        $(logo).css({top: offset + 'px', transform: rotate, opacity: sinVal});
+        $(logo).css({top: offset + 'px', transform: rotate, opacity: opacity});
 
         $('#tracks').on('mouseover', 'tr', function(){
             $(this).next().next().addClass('obscured');

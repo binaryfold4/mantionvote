@@ -146,7 +146,11 @@ a
 {
     thead { display: none; }
     td
-    {   background: @color_brand url(assets/remove.png) no-repeat right 20px center; color: #fff; padding-left: 20px; padding-right: 60px; border-bottom: 2px solid @color_brand_dark;
+    {   background-color: @color_brand;  color: #fff; padding-left: 20px; padding-right: 60px; border-bottom: 2px solid @color_brand_dark;
+        &.remove {
+          &:hover { background: @color_brand url(assets/remove.png) no-repeat right 20px center; }
+        }
+
         &.dataTables_empty { background-image: none; }
     }
 }
