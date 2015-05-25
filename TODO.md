@@ -31,8 +31,8 @@
    
 ## frontend bugs
 
-  * [1] fix favicons
   * [1] fix datatables responsiveness on vote table (should see vote button on mobile)
+  * [1] fix favicons
   * [2] responsiveness improved on mobile devices (esp sidebar)
   * [2] workaround: fix page 'jumping' down when clicking vote on a track on mobile
   * [3] optimise Datatables; slowed down after adding responsiveness
@@ -49,7 +49,6 @@
   * [W] related to above - make behaviour between lists consistent; either pushing anywhere on main track except play button adds it, or do above
   * [W] play button on voted tracks - perhaps play all of these in a loop
   
-  * [W] ability to seek/skip through soundcloud tracks   
   * [W] replace alert() with nice modal
   * [W] increment votes in main table when hitting 'save'
   * [W] ensure still works (degrades) with JS turned off
