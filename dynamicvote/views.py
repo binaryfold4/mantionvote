@@ -85,5 +85,5 @@ def updateprofile(request):
             user_form.save()
             return HttpResponseRedirect(reverse('votetracks'))
     else:
-        user_form = UserInfoForm()
+        user_form = UserInfoForm(instance=request.user)
     return render_to_response('profile.html', {'user_form': user_form, 'page_profile': True}, context_instance=RequestContext(request))
