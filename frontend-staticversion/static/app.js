@@ -13,7 +13,7 @@ $(document).ready(function() {
         //"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
         "bPaginate": false,
         "ajax": {
-            "url": "https://raw.githubusercontent.com/xfxf/django-mantionvote/master/frontend-staticversion/tracks.json",
+            "url": "http://catstick.com/tracks.json",
             "dataSrc": ""
         },
         responsive: {
@@ -83,7 +83,7 @@ $(document).ready(function() {
         "bPaginate": false,
         "bFilter": false,
         "ajax": {
-            "url": "https://raw.githubusercontent.com/xfxf/django-mantionvote/master/frontend-staticversion/vote.json",
+            "url": "http://catstick.com/vote.json",
             "dataSrc": ""
         },
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
