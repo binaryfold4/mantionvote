@@ -32,7 +32,6 @@
 ## frontend bugs
 
   * [1] fix datatables responsiveness on vote table (should see vote button on mobile)
-  * [1] fix favicons
   * [2] responsiveness improved on mobile devices (esp sidebar)
   * [2] workaround: fix page 'jumping' down when clicking vote on a track on mobile
   * [3] optimise Datatables; slowed down after adding responsiveness
